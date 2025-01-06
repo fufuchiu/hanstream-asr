@@ -11,3 +11,10 @@ def positive_int(value: int, name: str = 'value') -> int:
     if isinstance(value, bool) or not isinstance(value, numbers.Integral) or value <= 0:
         raise ValueError(f'{name} must be a positive integer')
     return int(value)
+
+
+def finite(value: float, name: str = 'value') -> float:
+    """Require a finite real scalar."""
+    if isinstance(value, bool) or not isinstance(value, numbers.Real) or not math.isfinite(value):
+        raise ValueError(f'{name} must be a finite number')
+    return float(value)
