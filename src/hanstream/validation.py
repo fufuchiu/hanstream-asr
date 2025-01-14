@@ -34,3 +34,11 @@ def waveform(samples) -> np.ndarray:
     if result.ndim != 1 or not np.isfinite(result).all():
         raise ValueError('samples must be a finite one-dimensional array')
     return result.copy()
+
+
+def matrix(values) -> np.ndarray:
+    """Require a finite nonempty feature matrix."""
+    result = np.asarray(values, dtype=np.float64)
+    if result.ndim != 2 or not all(result.shape) or not np.isfinite(result).all():
+        raise ValueError('expected a finite nonempty matrix')
+    return result.copy()
