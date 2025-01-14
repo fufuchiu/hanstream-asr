@@ -18,3 +18,11 @@ def finite(value: float, name: str = 'value') -> float:
     if isinstance(value, bool) or not isinstance(value, numbers.Real) or not math.isfinite(value):
         raise ValueError(f'{name} must be a finite number')
     return float(value)
+
+
+def probability(value: float, name: str = 'value') -> float:
+    """Require a probability in the closed unit interval."""
+    value = finite(value, name)
+    if not 0 <= value <= 1:
+        raise ValueError(f'{name} must be between zero and one')
+    return value
