@@ -31,3 +31,14 @@ def read_wav(path: str | Path) -> tuple[np.ndarray, int]:
     if len(raw) != count * channels * 2:
         raise ValueError('truncated WAV payload')
     return decode_pcm16(raw).reshape(-1, channels).mean(axis=1), rate
+
+
+def write_wav(path: str | Path, samples, sample_rate: int = 16000) -> None:
+    """Write a mono PCM16 WAV file with a checked sample rate."""
+    rate = positive_int(sample_rate, 'sample_rate')
+    payload = encode_pcm16(samples)
+    with wave.open(str(path), 'wb') as stream:
+        stream.setnchannels(1)
+        stream.setsampwidth(2)
+        stream.setframerate(rate)
+        stream.writeframes(payload)
