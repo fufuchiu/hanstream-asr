@@ -53,3 +53,11 @@ def rms(samples) -> float:
 def peak(samples) -> float:
     """Maximum absolute amplitude, or zero for empty input."""
     return float(np.max(np.abs(waveform(samples)), initial=0))
+
+
+def normalize_peak(samples, target: float = 0.95) -> np.ndarray:
+    """Scale to a peak target; preserve silence without dividing by zero."""
+    target = probability(target, 'target')
+    x = waveform(samples)
+    maximum = peak(x)
+    return x * (target / maximum) if maximum else x
