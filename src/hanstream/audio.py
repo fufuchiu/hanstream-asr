@@ -48,3 +48,8 @@ def rms(samples) -> float:
     """Root mean square amplitude; empty input has zero energy."""
     x = waveform(samples)
     return float(np.sqrt(np.mean(x * x))) if len(x) else 0.0
+
+
+def peak(samples) -> float:
+    """Maximum absolute amplitude, or zero for empty input."""
+    return float(np.max(np.abs(waveform(samples)), initial=0))
