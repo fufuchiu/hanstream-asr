@@ -68,3 +68,12 @@ def preemphasis(samples, coefficient: float = 0.97) -> np.ndarray:
     coefficient = probability(coefficient, 'coefficient')
     x = waveform(samples)
     return np.concatenate((x[:1], x[1:] - coefficient * x[:-1]))
+
+
+def frame_signal(samples, frame_size: int, hop_size: int, pad: bool = True) -> np.ndarray:
+    """Frame a waveform; padded framing emits every hop start below its end."""
+    size, hop = positive_int(frame_size), positive_int(hop_size)
+    x = waveform(samples)
+    starts = range(0, len(x), hop) if pad else range(0, max(0, len(x) - size + 1), hop)
+    rows = [np.pad(x[i : i + size], (0, max(0, i + size - len(x)))) for i in starts]
+    return np.stack(rows) if rows else np.empty((0, size), dtype=np.float64)
