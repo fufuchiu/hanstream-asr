@@ -19,3 +19,15 @@ def encode_pcm16(samples) -> bytes:
     """Saturate, round and encode normalized mono samples."""
     x = waveform(samples)
     return np.clip(np.rint(x * 32768), -32768, 32767).astype('<i2').tobytes()
+
+
+def read_wav(path: str | Path) -> tuple[np.ndarray, int]:
+    """Read uncompressed PCM16 WAV and average channels."""
+    with wave.open(str(path), 'rb') as stream:
+        if stream.getsampwidth() != 2 or stream.getcomptype() != 'NONE':
+            raise ValueError('only uncompressed PCM16 WAV is supported')
+        rate, channels, count = stream.getframerate(), stream.getnchannels(), stream.getnframes()
+        raw = stream.readframes(count)
+    if len(raw) != count * channels * 2:
+        raise ValueError('truncated WAV payload')
+    return decode_pcm16(raw).reshape(-1, channels).mean(axis=1), rate
