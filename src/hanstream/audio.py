@@ -13,3 +13,9 @@ def decode_pcm16(data: bytes) -> np.ndarray:
     if len(data) % 2:
         raise ValueError('PCM16 byte length must be even')
     return np.frombuffer(data, dtype='<i2').astype(np.float64) / 32768.0
+
+
+def encode_pcm16(samples) -> bytes:
+    """Saturate, round and encode normalized mono samples."""
+    x = waveform(samples)
+    return np.clip(np.rint(x * 32768), -32768, 32767).astype('<i2').tobytes()
