@@ -20,3 +20,12 @@ def mel_to_hz(mel):
     if not np.isfinite(x).all() or (x < 0).any() or (x > 100000).any():
         raise ValueError('mel values must lie in [0, 100000]')
     return 700.0 * (10 ** (x / 2595.0) - 1)
+
+
+def power_spectrum(frames, n_fft: int = 512) -> np.ndarray:
+    """Hann-windowed one-sided power divided by FFT length."""
+    x = matrix(frames)
+    n_fft = positive_int(n_fft)
+    if n_fft < x.shape[1]:
+        raise ValueError('n_fft cannot truncate a frame')
+    return np.abs(np.fft.rfft(x * np.hanning(x.shape[1]), n=n_fft, axis=1)) ** 2 / n_fft
