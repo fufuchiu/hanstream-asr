@@ -12,3 +12,11 @@ def hz_to_mel(hz):
     if not np.isfinite(x).all() or (x < 0).any():
         raise ValueError('frequencies must be finite and nonnegative')
     return 2595.0 * np.log10(1 + x / 700.0)
+
+
+def mel_to_hz(mel):
+    """Invert the HTK mel transform."""
+    x = np.asarray(mel, dtype=float)
+    if not np.isfinite(x).all() or (x < 0).any() or (x > 100000).any():
+        raise ValueError('mel values must lie in [0, 100000]')
+    return 700.0 * (10 ** (x / 2595.0) - 1)
