@@ -42,3 +42,9 @@ def write_wav(path: str | Path, samples, sample_rate: int = 16000) -> None:
         stream.setsampwidth(2)
         stream.setframerate(rate)
         stream.writeframes(payload)
+
+
+def rms(samples) -> float:
+    """Root mean square amplitude; empty input has zero energy."""
+    x = waveform(samples)
+    return float(np.sqrt(np.mean(x * x))) if len(x) else 0.0
