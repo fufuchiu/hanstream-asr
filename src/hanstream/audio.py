@@ -61,3 +61,10 @@ def normalize_peak(samples, target: float = 0.95) -> np.ndarray:
     x = waveform(samples)
     maximum = peak(x)
     return x * (target / maximum) if maximum else x
+
+
+def preemphasis(samples, coefficient: float = 0.97) -> np.ndarray:
+    """Apply y[t] = x[t] - coefficient*x[t-1], preserving x[0]."""
+    coefficient = probability(coefficient, 'coefficient')
+    x = waveform(samples)
+    return np.concatenate((x[:1], x[1:] - coefficient * x[:-1]))
