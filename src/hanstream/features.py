@@ -80,3 +80,16 @@ def cmvn(features, epsilon: float = 1e-8) -> np.ndarray:
     if epsilon <= 0:
         raise ValueError('epsilon must be positive')
     return (x - x.mean(axis=0)) / np.maximum(x.std(axis=0), epsilon)
+
+
+def delta(features, width: int = 2) -> np.ndarray:
+    """Regression deltas with replicated boundary frames."""
+    x = matrix(features)
+    width = positive_int(width)
+    padded = np.pad(x, ((width, width), (0, 0)), mode='edge')
+    result = np.zeros_like(x)
+    for i in range(1, width + 1):
+        result += i * (
+            padded[width + i : width + i + len(x)] - padded[width - i : width - i + len(x)]
+        )
+    return result / (2 * sum(i * i for i in range(1, width + 1)))
