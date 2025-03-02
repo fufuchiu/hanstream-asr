@@ -31,3 +31,9 @@ def tokens(text: str, unit: str = 'word', policy: TextPolicy = TextPolicy()) -> 
     if unit == 'char':
         return [c for c in text if not c.isspace()]
     raise ValueError('unit must be word or char')
+
+
+def make_vocabulary(texts: list[str]) -> tuple[str, ...]:
+    """Build a sorted vocabulary with blank=0 and unknown=1."""
+    alphabet = set(''.join(normalize(text) for text in texts))
+    return ('<blank>', '<unk>', *sorted(alphabet))
