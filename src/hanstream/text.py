@@ -21,3 +21,13 @@ def normalize(text: str, policy: TextPolicy = TextPolicy()) -> str:
     if not policy.punctuation:
         value = ''.join(' ' if unicodedata.category(c).startswith('P') else c for c in value)
     return ' '.join(value.split())
+
+
+def tokens(text: str, unit: str = 'word', policy: TextPolicy = TextPolicy()) -> list[str]:
+    """Tokenize words or non-whitespace Unicode code points."""
+    text = normalize(text, policy)
+    if unit == 'word':
+        return text.split()
+    if unit == 'char':
+        return [c for c in text if not c.isspace()]
+    raise ValueError('unit must be word or char')
