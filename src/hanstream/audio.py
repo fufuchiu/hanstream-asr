@@ -83,3 +83,15 @@ def remove_dc(samples) -> np.ndarray:
     """Remove the mean without mutating caller-owned samples."""
     x = waveform(samples)
     return x - x.mean() if len(x) else x
+
+
+def add_noise(samples, snr_db: float, seed: int = 0) -> np.ndarray:
+    """Add Gaussian noise scaled to the requested measured SNR."""
+    x = waveform(samples)
+    snr_db = finite(snr_db, 'snr_db')
+    if not -120 <= snr_db <= 120:
+        raise ValueError('snr_db must be in [-120, 120]')
+    if not len(x) or not rms(x):
+        return x
+    noise = np.random.default_rng(seed).normal(size=len(x))
+    return x + noise * rms(x) / (rms(noise) * 10 ** (snr_db / 20))
