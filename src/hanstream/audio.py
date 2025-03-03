@@ -77,3 +77,9 @@ def frame_signal(samples, frame_size: int, hop_size: int, pad: bool = True) -> n
     starts = range(0, len(x), hop) if pad else range(0, max(0, len(x) - size + 1), hop)
     rows = [np.pad(x[i : i + size], (0, max(0, i + size - len(x)))) for i in starts]
     return np.stack(rows) if rows else np.empty((0, size), dtype=np.float64)
+
+
+def remove_dc(samples) -> np.ndarray:
+    """Remove the mean without mutating caller-owned samples."""
+    x = waveform(samples)
+    return x - x.mean() if len(x) else x
