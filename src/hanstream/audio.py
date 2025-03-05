@@ -103,3 +103,8 @@ def trim_silence(samples, threshold: float = 0.01) -> np.ndarray:
     x = waveform(samples)
     active = np.flatnonzero(np.abs(x) > threshold)
     return x[active[0] : active[-1] + 1] if len(active) else x[:0]
+
+
+def duration(samples, sample_rate: int = 16000) -> float:
+    """Return the waveform duration in seconds."""
+    return len(waveform(samples)) / positive_int(sample_rate)
