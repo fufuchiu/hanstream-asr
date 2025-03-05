@@ -95,3 +95,11 @@ def add_noise(samples, snr_db: float, seed: int = 0) -> np.ndarray:
         return x
     noise = np.random.default_rng(seed).normal(size=len(x))
     return x + noise * rms(x) / (rms(noise) * 10 ** (snr_db / 20))
+
+
+def trim_silence(samples, threshold: float = 0.01) -> np.ndarray:
+    """Trim leading/trailing samples strictly below an amplitude threshold."""
+    threshold = probability(threshold)
+    x = waveform(samples)
+    active = np.flatnonzero(np.abs(x) > threshold)
+    return x[active[0] : active[-1] + 1] if len(active) else x[:0]
