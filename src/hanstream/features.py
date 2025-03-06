@@ -29,3 +29,26 @@ def power_spectrum(frames, n_fft: int = 512) -> np.ndarray:
     if n_fft < x.shape[1]:
         raise ValueError('n_fft cannot truncate a frame')
     return np.abs(np.fft.rfft(x * np.hanning(x.shape[1]), n=n_fft, axis=1)) ** 2 / n_fft
+
+
+def mel_filterbank(
+    sample_rate: int = 16000,
+    n_fft: int = 512,
+    n_mels: int = 40,
+    f_min: float = 0,
+    f_max: float | None = None,
+) -> np.ndarray:
+    """Continuous triangular filters, shape (n_mels, n_fft//2+1)."""
+    rate, n_fft, n_mels = positive_int(sample_rate), positive_int(n_fft), positive_int(n_mels)
+    low = finite(f_min)
+    high = rate / 2 if f_max is None else finite(f_max)
+    if not 0 <= low < high <= rate / 2:
+        raise ValueError('frequency bounds must satisfy 0 <= min < max <= Nyquist')
+    edges = mel_to_hz(np.linspace(hz_to_mel(low), hz_to_mel(high), n_mels + 2))
+    frequencies = np.fft.rfftfreq(n_fft, 1 / rate)
+    rising = (frequencies[None, :] - edges[:-2, None]) / (edges[1:-1] - edges[:-2])[:, None]
+    falling = (edges[2:, None] - frequencies[None, :]) / (edges[2:] - edges[1:-1])[:, None]
+    filters = np.maximum(0, np.minimum(rising, falling))
+    if (filters.sum(axis=1) == 0).any():
+        raise ValueError('FFT resolution is too low for the requested mel filters')
+    return filters
