@@ -52,3 +52,22 @@ def mel_filterbank(
     if (filters.sum(axis=1) == 0).any():
         raise ValueError('FFT resolution is too low for the requested mel filters')
     return filters
+
+
+def log_mel(
+    samples,
+    sample_rate: int = 16000,
+    frame_size: int = 400,
+    hop_size: int = 160,
+    n_fft: int = 512,
+    n_mels: int = 40,
+) -> np.ndarray:
+    """Return natural-log mel energies, including padded final frames."""
+    x = waveform(samples)
+    bank = mel_filterbank(sample_rate, n_fft, n_mels)
+    frames = frame_signal(x, frame_size, hop_size)
+    if positive_int(n_fft) < positive_int(frame_size):
+        raise ValueError('n_fft cannot truncate a frame')
+    if not len(frames):
+        return np.empty((0, n_mels))
+    return np.log(np.maximum(power_spectrum(frames, n_fft) @ bank.T, 1e-10))
