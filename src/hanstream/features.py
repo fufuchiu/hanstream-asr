@@ -71,3 +71,12 @@ def log_mel(
     if not len(frames):
         return np.empty((0, n_mels))
     return np.log(np.maximum(power_spectrum(frames, n_fft) @ bank.T, 1e-10))
+
+
+def cmvn(features, epsilon: float = 1e-8) -> np.ndarray:
+    """Normalize each feature column over time; constant columns become zero."""
+    x = matrix(features)
+    epsilon = finite(epsilon)
+    if epsilon <= 0:
+        raise ValueError('epsilon must be positive')
+    return (x - x.mean(axis=0)) / np.maximum(x.std(axis=0), epsilon)
