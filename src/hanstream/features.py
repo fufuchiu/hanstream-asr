@@ -93,3 +93,21 @@ def delta(features, width: int = 2) -> np.ndarray:
             padded[width + i : width + i + len(x)] - padded[width - i : width - i + len(x)]
         )
     return result / (2 * sum(i * i for i in range(1, width + 1)))
+
+
+def mask_features(
+    features, time_width: int = 0, frequency_width: int = 0, seed: int = 0
+) -> np.ndarray:
+    """Apply one time and frequency mask with reproducible random positions."""
+    x = matrix(features)
+    for width, limit in [(time_width, x.shape[0]), (frequency_width, x.shape[1])]:
+        if isinstance(width, bool) or not isinstance(width, int) or not 0 <= width <= limit:
+            raise ValueError('mask width must be an integer within the selected axis')
+    rng = np.random.default_rng(seed)
+    if time_width:
+        start = rng.integers(0, len(x) - time_width + 1)
+        x[start : start + time_width] = 0
+    if frequency_width:
+        start = rng.integers(0, x.shape[1] - frequency_width + 1)
+        x[:, start : start + frequency_width] = 0
+    return x
