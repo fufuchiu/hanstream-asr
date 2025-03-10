@@ -37,3 +37,15 @@ def make_vocabulary(texts: list[str]) -> tuple[str, ...]:
     """Build a sorted vocabulary with blank=0 and unknown=1."""
     alphabet = set(''.join(normalize(text) for text in texts))
     return ('<blank>', '<unk>', *sorted(alphabet))
+
+
+def check_vocabulary(vocabulary) -> tuple[str, ...]:
+    """Validate the blank/unknown contract and unique single-character tokens."""
+    value = tuple(vocabulary)
+    if len(value) < 2 or value[:2] != ('<blank>', '<unk>'):
+        raise ValueError('vocabulary must begin with blank and unknown')
+    if any(not isinstance(v, str) or len(v) != 1 for v in value[2:]) or len(set(value)) != len(
+        value
+    ):
+        raise ValueError('vocabulary requires unique character tokens')
+    return value
