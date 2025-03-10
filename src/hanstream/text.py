@@ -49,3 +49,10 @@ def check_vocabulary(vocabulary) -> tuple[str, ...]:
     ):
         raise ValueError('vocabulary requires unique character tokens')
     return value
+
+
+def encode(text: str, vocabulary) -> list[int]:
+    """Encode normalized characters; unseen characters become unknown."""
+    vocab = check_vocabulary(vocabulary)
+    lookup = {token: i for i, token in enumerate(vocab)}
+    return [lookup.get(char, 1) for char in normalize(text)]
