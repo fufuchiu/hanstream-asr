@@ -56,3 +56,15 @@ def encode(text: str, vocabulary) -> list[int]:
     vocab = check_vocabulary(vocabulary)
     lookup = {token: i for i, token in enumerate(vocab)}
     return [lookup.get(char, 1) for char in normalize(text)]
+
+
+def decode(ids, vocabulary) -> str:
+    """Decode IDs, discarding blanks and rendering unknowns as U+FFFD."""
+    vocab = check_vocabulary(vocabulary)
+    result = []
+    for index in ids:
+        if isinstance(index, bool) or not isinstance(index, int) or not 0 <= index < len(vocab):
+            raise ValueError('token ID outside vocabulary')
+        if index:
+            result.append('�' if index == 1 else vocab[index])
+    return ''.join(result)
