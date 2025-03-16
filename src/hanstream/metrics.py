@@ -58,3 +58,10 @@ def edit_counts(reference, hypothesis) -> EditCounts:
     """Count each edit category from a deterministic alignment."""
     counts = Counter(op for op, _, _ in align(reference, hypothesis))
     return EditCounts(counts['sub'], counts['del'], counts['ins'], counts['hit'])
+
+
+def score(
+    reference: str, hypothesis: str, unit: str = 'word', policy: TextPolicy = TextPolicy()
+) -> EditCounts:
+    """Score normalized words or characters."""
+    return edit_counts(tokens(reference, unit, policy), tokens(hypothesis, unit, policy))
