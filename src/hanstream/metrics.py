@@ -52,3 +52,9 @@ def align(reference, hypothesis) -> list[tuple[str, str | None, str | None]]:
             output.append(('ins', None, hyp[j - 1]))
             j -= 1
     return list(reversed(output))
+
+
+def edit_counts(reference, hypothesis) -> EditCounts:
+    """Count each edit category from a deterministic alignment."""
+    counts = Counter(op for op, _, _ in align(reference, hypothesis))
+    return EditCounts(counts['sub'], counts['del'], counts['ins'], counts['hit'])
