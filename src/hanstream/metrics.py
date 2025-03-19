@@ -65,3 +65,17 @@ def score(
 ) -> EditCounts:
     """Score normalized words or characters."""
     return edit_counts(tokens(reference, unit, policy), tokens(hypothesis, unit, policy))
+
+
+def corpus_score(references, hypotheses, unit: str = 'word') -> EditCounts:
+    """Micro-average errors; reject dropped or unmatched utterances."""
+    refs, hyps = list(references), list(hypotheses)
+    if len(refs) != len(hyps):
+        raise ValueError('reference and hypothesis counts differ')
+    results = [score(r, h, unit) for r, h in zip(refs, hyps)]
+    return EditCounts(
+        *(
+            sum(getattr(r, key) for r in results)
+            for key in ('substitutions', 'deletions', 'insertions', 'hits')
+        )
+    )
