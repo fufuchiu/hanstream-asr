@@ -17,3 +17,19 @@ def logadd(*values: float) -> float:
     if top == -math.inf:
         return top
     return top + math.log(sum(math.exp(x - top) for x in values))
+
+
+def checked_log_probs(values, blank: int = 0) -> np.ndarray:
+    """Accept normalized log probabilities with impossible (-inf) outcomes."""
+    x = np.asarray(values, dtype=float)
+    if x.ndim != 2 or x.shape[1] < 1 or np.isnan(x).any() or np.isposinf(x).any():
+        raise ValueError('expected a time-by-vocabulary log-probability matrix')
+    if (
+        isinstance(blank, bool)
+        or not isinstance(blank, numbers.Integral)
+        or not 0 <= blank < x.shape[1]
+    ):
+        raise ValueError('blank ID outside vocabulary')
+    if any(not math.isclose(logadd(*row), 0, abs_tol=1e-5) for row in x):
+        raise ValueError('each log-probability row must sum to one')
+    return x
