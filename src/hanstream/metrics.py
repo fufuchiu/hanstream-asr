@@ -79,3 +79,16 @@ def corpus_score(references, hypotheses, unit: str = 'word') -> EditCounts:
             for key in ('substitutions', 'deletions', 'insertions', 'hits')
         )
     )
+
+
+def confusion_pairs(
+    reference: str, hypothesis: str, unit: str = 'char'
+) -> dict[tuple[str, str], int]:
+    """Return substitution pairs; exclude insertions and deletions."""
+    return dict(
+        Counter(
+            (r, h)
+            for op, r, h in align(tokens(reference, unit), tokens(hypothesis, unit))
+            if op == 'sub'
+        )
+    )
