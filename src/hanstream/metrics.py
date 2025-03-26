@@ -92,3 +92,11 @@ def confusion_pairs(
             if op == 'sub'
         )
     )
+
+
+def sentence_error_rate(references, hypotheses, unit: str = 'word') -> float:
+    """Fraction of utterances containing any normalized edit."""
+    refs, hyps = list(references), list(hypotheses)
+    if len(refs) != len(hyps):
+        raise ValueError('reference and hypothesis counts differ')
+    return sum(score(r, h, unit).errors > 0 for r, h in zip(refs, hyps)) / max(1, len(refs))
