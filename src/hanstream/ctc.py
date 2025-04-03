@@ -84,3 +84,11 @@ def prefix_beam_search(
             sorted(next_beam.items(), key=lambda item: (-logadd(*item[1]), item[0]))[:beam_size]
         )
     return sorted(((p, logadd(*v)) for p, v in beam.items()), key=lambda item: (-item[1], item[0]))
+
+
+@dataclass(frozen=True)
+class TokenSpan:
+    token: int
+    start_frame: int
+    end_frame: int
+    log_score: float
