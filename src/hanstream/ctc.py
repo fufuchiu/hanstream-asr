@@ -33,3 +33,17 @@ def checked_log_probs(values, blank: int = 0) -> np.ndarray:
     if any(not math.isclose(logadd(*row), 0, abs_tol=1e-5) for row in x):
         raise ValueError('each log-probability row must sum to one')
     return x
+
+
+def collapse(path, blank: int = 0) -> tuple[int, ...]:
+    """Merge consecutive repetitions before removing blanks."""
+    if isinstance(blank, bool) or not isinstance(blank, numbers.Integral) or blank < 0:
+        raise ValueError('blank must be a nonnegative integer')
+    previous, output = None, []
+    for token in path:
+        if isinstance(token, bool) or not isinstance(token, numbers.Integral) or token < 0:
+            raise ValueError('path IDs must be nonnegative integers')
+        if token != blank and token != previous:
+            output.append(int(token))
+        previous = token
+    return tuple(output)
