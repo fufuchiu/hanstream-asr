@@ -53,3 +53,34 @@ def greedy(log_probs, blank: int = 0) -> tuple[int, ...]:
     """Choose the best frame path and perform CTC collapse."""
     x = checked_log_probs(log_probs, blank)
     return collapse(x.argmax(axis=1), blank)
+
+
+def prefix_beam_search(
+    log_probs, beam_size: int = 8, blank: int = 0
+) -> list[tuple[tuple[int, ...], float]]:
+    """Aggregate blank/nonblank prefix probabilities, pruning after each frame."""
+    x = checked_log_probs(log_probs, blank)
+    beam_size = positive_int(beam_size)
+    beam = {(): (0.0, -math.inf)}
+    for row in x:
+        next_beam = {}
+
+        def update(prefix, p_blank=-math.inf, p_nonblank=-math.inf):
+            before = next_beam.get(prefix, (-math.inf, -math.inf))
+            next_beam[prefix] = (logadd(before[0], p_blank), logadd(before[1], p_nonblank))
+
+        for prefix, (pb, pnb) in beam.items():
+            total = logadd(pb, pnb)
+            update(prefix, p_blank=total + row[blank])
+            for token, probability in enumerate(row):
+                if token == blank or probability == -math.inf:
+                    continue
+                if prefix and token == prefix[-1]:
+                    update(prefix, p_nonblank=pnb + probability)
+                    update(prefix + (token,), p_nonblank=pb + probability)
+                else:
+                    update(prefix + (token,), p_nonblank=total + probability)
+        beam = dict(
+            sorted(next_beam.items(), key=lambda item: (-logadd(*item[1]), item[0]))[:beam_size]
+        )
+    return sorted(((p, logadd(*v)) for p, v in beam.items()), key=lambda item: (-item[1], item[0]))
