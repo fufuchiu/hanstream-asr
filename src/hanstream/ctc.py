@@ -47,3 +47,9 @@ def collapse(path, blank: int = 0) -> tuple[int, ...]:
             output.append(int(token))
         previous = token
     return tuple(output)
+
+
+def greedy(log_probs, blank: int = 0) -> tuple[int, ...]:
+    """Choose the best frame path and perform CTC collapse."""
+    x = checked_log_probs(log_probs, blank)
+    return collapse(x.argmax(axis=1), blank)
