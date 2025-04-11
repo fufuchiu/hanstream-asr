@@ -92,3 +92,55 @@ class TokenSpan:
     start_frame: int
     end_frame: int
     log_score: float
+
+
+def forced_align(log_probs, target, blank: int = 0) -> list[TokenSpan]:
+    """Viterbi-align a known target; reject impossible alignments explicitly."""
+    x = checked_log_probs(log_probs, blank)
+    target = list(target)
+    if any(
+        isinstance(t, bool)
+        or not isinstance(t, numbers.Integral)
+        or not 0 <= t < x.shape[1]
+        or t == blank
+        for t in target
+    ):
+        raise ValueError('target IDs must be in vocabulary and exclude blank')
+    if not target:
+        if len(x) and not np.isfinite(x[:, blank]).all():
+            raise ValueError('empty target is impossible under these emissions')
+        return []
+    required = len(target) + sum(a == c for a, c in zip(target, target[1:]))
+    if len(x) < required:
+        raise ValueError('not enough frames for target and repeated-token blanks')
+    labels = [blank]
+    for token in target:
+        labels.extend((token, blank))
+    size = len(labels)
+    dp = np.full((len(x), size), -np.inf)
+    back = np.full((len(x), size), -1, dtype=int)
+    dp[0, :2] = x[0, labels[:2]]
+    for t in range(1, len(x)):
+        for s, label in enumerate(labels):
+            previous = [s]
+            if s:
+                previous.append(s - 1)
+            if s > 1 and label != blank and label != labels[s - 2]:
+                previous.append(s - 2)
+            p = max(previous, key=lambda index: dp[t - 1, index])
+            dp[t, s], back[t, s] = dp[t - 1, p] + x[t, label], p
+    state = max((size - 1, size - 2), key=lambda s: dp[-1, s])
+    if not np.isfinite(dp[-1, state]):
+        raise ValueError('target has zero alignment probability')
+    states = [state]
+    for t in range(len(x) - 1, 0, -1):
+        state = int(back[t, state])
+        states.append(state)
+    states.reverse()
+    spans = []
+    for i, token in enumerate(target):
+        frames = [t for t, s in enumerate(states) if s == 2 * i + 1]
+        spans.append(
+            TokenSpan(int(token), min(frames), max(frames) + 1, float(x[frames, token].sum()))
+        )
+    return spans
