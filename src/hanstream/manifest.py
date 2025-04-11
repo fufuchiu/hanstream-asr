@@ -37,3 +37,23 @@ def parse_record(data: dict) -> Utterance:
         return Utterance(**data)
     except TypeError as exc:
         raise ValueError(f'invalid manifest fields: {exc}') from exc
+
+
+def load_manifest(path: str | Path, check_audio: bool = False) -> list[Utterance]:
+    """Load JSONL; resolve audio relative to the manifest when validating paths."""
+    path = Path(path)
+    records, seen = [], set()
+    for line_number, line in enumerate(path.read_text(encoding='utf-8').splitlines(), 1):
+        if not line.strip():
+            continue
+        try:
+            row = parse_record(json.loads(line))
+            if row.id in seen:
+                raise ValueError(f'duplicate utterance ID {row.id}')
+            if check_audio and not (path.parent / row.audio).is_file():
+                raise ValueError(f'audio file missing: {row.audio}')
+            seen.add(row.id)
+            records.append(row)
+        except (ValueError, TypeError) as exc:
+            raise ValueError(f'{path.name}:{line_number}: {exc}') from exc
+    return records
