@@ -27,3 +27,13 @@ class Utterance:
         if finite(self.duration, 'duration') <= 0:
             raise ValueError('duration must be positive')
         positive_int(self.sample_rate, 'sample_rate')
+
+
+def parse_record(data: dict) -> Utterance:
+    """Reject unknown fields and missing required fields."""
+    if not isinstance(data, dict):
+        raise ValueError('manifest record must be an object')
+    try:
+        return Utterance(**data)
+    except TypeError as exc:
+        raise ValueError(f'invalid manifest fields: {exc}') from exc
