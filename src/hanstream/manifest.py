@@ -57,3 +57,15 @@ def load_manifest(path: str | Path, check_audio: bool = False) -> list[Utterance
         except (ValueError, TypeError) as exc:
             raise ValueError(f'{path.name}:{line_number}: {exc}') from exc
     return records
+
+
+def save_manifest(path: str | Path, records) -> None:
+    """Validate all records before writing canonical UTF-8 JSONL."""
+    values = list(records)
+    if len({r.id for r in values}) != len(values):
+        raise ValueError('duplicate utterance IDs')
+    payload = ''.join(
+        json.dumps(asdict(parse_record(asdict(r))), ensure_ascii=False, sort_keys=True) + '\n'
+        for r in values
+    )
+    Path(path).write_text(payload, encoding='utf-8')
