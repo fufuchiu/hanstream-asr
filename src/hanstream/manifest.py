@@ -69,3 +69,16 @@ def save_manifest(path: str | Path, records) -> None:
         for r in values
     )
     Path(path).write_text(payload, encoding='utf-8')
+
+
+def speaker_split(
+    records, validation_fraction: float = 0.1, seed: str = '0'
+) -> tuple[list[Utterance], list[Utterance]]:
+    """Hash speaker identity so appending data never changes earlier assignments."""
+    fraction = probability(validation_fraction)
+    train, valid = [], []
+    for record in records:
+        digest = hashlib.sha256((str(seed) + '\0' + record.speaker).encode()).digest()
+        destination = valid if int.from_bytes(digest, 'big') / (1 << 256) < fraction else train
+        destination.append(record)
+    return train, valid
