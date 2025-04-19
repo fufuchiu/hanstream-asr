@@ -93,3 +93,22 @@ def corpus_summary(records) -> dict:
         'speakers': len({r.speaker for r in records}),
         'sample_rates': sorted({r.sample_rate for r in records}),
     }
+
+
+def duration_batches(records, max_seconds: float = 60) -> list[list[Utterance]]:
+    """Stable greedy batching with a hard total-duration budget."""
+    limit = finite(max_seconds)
+    if limit <= 0:
+        raise ValueError('max_seconds must be positive')
+    result, current, seconds = [], [], 0.0
+    for record in records:
+        if record.duration > limit:
+            raise ValueError(f'{record.id} exceeds the batch duration budget')
+        if current and seconds + record.duration > limit:
+            result.append(current)
+            current, seconds = [], 0.0
+        current.append(record)
+        seconds += record.duration
+    if current:
+        result.append(current)
+    return result
