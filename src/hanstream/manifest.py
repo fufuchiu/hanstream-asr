@@ -82,3 +82,14 @@ def speaker_split(
         destination = valid if int.from_bytes(digest, 'big') / (1 << 256) < fraction else train
         destination.append(record)
     return train, valid
+
+
+def corpus_summary(records) -> dict:
+    """Summarize hours, speakers and sample rates without accessing audio."""
+    records = list(records)
+    return {
+        'utterances': len(records),
+        'hours': sum(r.duration for r in records) / 3600,
+        'speakers': len({r.speaker for r in records}),
+        'sample_rates': sorted({r.sample_rate for r in records}),
+    }
