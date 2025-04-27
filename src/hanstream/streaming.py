@@ -37,3 +37,9 @@ class PCMFramer:
     @property
     def pending_bytes(self) -> int:
         return len(self._pending)
+
+
+@dataclass(frozen=True)
+class EndpointEvent:
+    kind: str
+    frame: int
