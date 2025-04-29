@@ -43,3 +43,33 @@ class PCMFramer:
 class EndpointEvent:
     kind: str
     frame: int
+
+
+class EndpointDetector:
+    """Energy-based speech boundaries with minimum speech and trailing silence."""
+
+    def __init__(self, threshold: float = 0.01, start_frames: int = 2, silence_frames: int = 5):
+        self.threshold = probability(threshold)
+        self.start_frames = positive_int(start_frames)
+        self.silence_frames = positive_int(silence_frames)
+        self.reset()
+
+    def reset(self) -> None:
+        self.frame = 0
+        self.active = False
+        self.voiced = 0
+        self.silent = 0
+
+    def feed(self, samples) -> list[EndpointEvent]:
+        energy = rms(samples)
+        self.frame += 1
+        speech = energy > self.threshold
+        self.voiced = self.voiced + 1 if speech else 0
+        self.silent = 0 if speech else self.silent + 1
+        if not self.active and self.voiced >= self.start_frames:
+            self.active = True
+            return [EndpointEvent('start', self.frame - self.start_frames)]
+        if self.active and self.silent >= self.silence_frames:
+            self.active = False
+            return [EndpointEvent('end', self.frame - self.silence_frames)]
+        return []
