@@ -73,3 +73,16 @@ class EndpointDetector:
             self.active = False
             return [EndpointEvent('end', self.frame - self.silence_frames)]
         return []
+
+
+def common_prefix(sequences) -> tuple:
+    """Find a prefix shared by all candidate sequences."""
+    values = [tuple(v) for v in sequences]
+    if not values:
+        return ()
+    output = []
+    for column in zip(*values):
+        if len(set(column)) != 1:
+            break
+        output.append(column[0])
+    return tuple(output)
