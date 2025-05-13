@@ -86,3 +86,22 @@ def common_prefix(sequences) -> tuple:
             break
         output.append(column[0])
     return tuple(output)
+
+
+class StableTranscript:
+    """Commit only tokens repeated across a bounded hypothesis window."""
+
+    def __init__(self, window: int = 2):
+        self.window = positive_int(window)
+        self.history = []
+        self.committed = ()
+
+    def update(self, tokens) -> tuple:
+        hypothesis = tuple(tokens)
+        if hypothesis[: len(self.committed)] != self.committed:
+            raise ValueError('hypothesis revises an already committed prefix')
+        self.history.append(hypothesis)
+        self.history = self.history[-self.window :]
+        if len(self.history) == self.window:
+            self.committed = common_prefix(self.history)
+        return self.committed
