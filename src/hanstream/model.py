@@ -57,3 +57,48 @@ class TinyCTC(nn.Module):
             encoded, batch_first=True, total_length=features.shape[1]
         )
         return self.projection(padded).log_softmax(-1)
+
+
+def ctc_loss(
+    log_probs: torch.Tensor,
+    targets: torch.Tensor,
+    input_lengths: torch.Tensor,
+    target_lengths: torch.Tensor,
+    blank: int = 0,
+) -> torch.Tensor:
+    """Batch-first CTC loss with explicit rejection of impossible targets."""
+    if log_probs.ndim != 3 or not torch.isfinite(log_probs).all():
+        raise ValueError('log_probs must be a finite batch/time/vocabulary tensor')
+    batch, time, vocab = log_probs.shape
+    if isinstance(blank, bool) or not isinstance(blank, int) or not 0 <= blank < vocab:
+        raise ValueError('invalid blank ID')
+    if not torch.allclose(log_probs.logsumexp(-1), torch.zeros_like(log_probs[..., 0]), atol=1e-5):
+        raise ValueError('log probabilities must be normalized')
+    for lengths in (input_lengths, target_lengths):
+        if lengths.dtype not in (torch.int32, torch.int64) or lengths.shape != (batch,):
+            raise ValueError('invalid length tensor')
+    if (input_lengths <= 0).any() or (input_lengths > time).any() or (target_lengths < 0).any():
+        raise ValueError('invalid input or target lengths')
+    if (
+        targets.ndim != 1
+        or targets.dtype not in (torch.int32, torch.int64)
+        or targets.numel() != int(target_lengths.sum())
+    ):
+        raise ValueError('targets must be concatenated integer IDs')
+    if (targets < 0).any() or (targets >= vocab).any() or (targets == blank).any():
+        raise ValueError('targets must exclude blank and lie in vocabulary')
+    offset = 0
+    for available, length in zip(input_lengths.tolist(), target_lengths.tolist()):
+        sequence = targets[offset : offset + length]
+        required = length + int((sequence[1:] == sequence[:-1]).sum())
+        if required > available:
+            raise ValueError('target cannot be aligned to input frames')
+        offset += length
+    return nn.functional.ctc_loss(
+        log_probs.transpose(0, 1),
+        targets,
+        input_lengths,
+        target_lengths,
+        blank=blank,
+        zero_infinity=False,
+    )
