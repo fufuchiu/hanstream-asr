@@ -102,3 +102,26 @@ def ctc_loss(
         blank=blank,
         zero_infinity=False,
     )
+
+
+def train_step(
+    model: TinyCTC,
+    optimizer,
+    features,
+    lengths,
+    targets,
+    target_lengths,
+    max_grad_norm: float = 1.0,
+) -> float:
+    """Perform one finite-loss, clipped-gradient update."""
+    if not 0 < max_grad_norm < float('inf'):
+        raise ValueError('max_grad_norm must be positive and finite')
+    model.train()
+    optimizer.zero_grad(set_to_none=True)
+    loss = ctc_loss(model(features, lengths), targets, lengths, target_lengths, model.config.blank)
+    if not torch.isfinite(loss):
+        raise ValueError('nonfinite training loss')
+    loss.backward()
+    nn.utils.clip_grad_norm_(model.parameters(), max_grad_norm, error_if_nonfinite=True)
+    optimizer.step()
+    return float(loss.detach())
