@@ -17,3 +17,8 @@ def test_positive_int_rejects_1():
 def test_positive_int_rejects_2():
     with pytest.raises(ValueError):
         m.positive_int(True)
+
+
+def test_positive_int_rejects_3():
+    with pytest.raises(ValueError):
+        m.positive_int(1.5)
