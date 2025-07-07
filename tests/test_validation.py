@@ -27,3 +27,8 @@ def test_positive_int_rejects_3():
 def test_positive_int_rejects_4():
     with pytest.raises(ValueError):
         m.positive_int('2')
+
+
+def test_positive_int_rejects_5():
+    with pytest.raises(ValueError):
+        m.positive_int(None)
