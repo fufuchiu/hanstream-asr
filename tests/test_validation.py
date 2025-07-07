@@ -32,3 +32,8 @@ def test_positive_int_rejects_4():
 def test_positive_int_rejects_5():
     with pytest.raises(ValueError):
         m.positive_int(None)
+
+
+def test_finite_rejects_0():
+    with pytest.raises(ValueError):
+        m.finite(True)
