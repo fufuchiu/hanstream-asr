@@ -37,3 +37,8 @@ def test_positive_int_rejects_5():
 def test_finite_rejects_0():
     with pytest.raises(ValueError):
         m.finite(True)
+
+
+def test_finite_rejects_1():
+    with pytest.raises(ValueError):
+        m.finite('1')
