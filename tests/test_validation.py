@@ -47,3 +47,8 @@ def test_finite_rejects_1():
 def test_finite_rejects_2():
     with pytest.raises(ValueError):
         m.finite(None)
+
+
+def test_finite_rejects_3():
+    with pytest.raises(ValueError):
+        m.finite(float('nan'))
