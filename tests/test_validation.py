@@ -57,3 +57,8 @@ def test_finite_rejects_3():
 def test_finite_rejects_4():
     with pytest.raises(ValueError):
         m.finite(float('inf'))
+
+
+def test_finite_rejects_5():
+    with pytest.raises(ValueError):
+        m.finite(-float('inf'))
