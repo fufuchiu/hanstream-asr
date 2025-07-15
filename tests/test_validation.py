@@ -52,3 +52,8 @@ def test_finite_rejects_2():
 def test_finite_rejects_3():
     with pytest.raises(ValueError):
         m.finite(float('nan'))
+
+
+def test_finite_rejects_4():
+    with pytest.raises(ValueError):
+        m.finite(float('inf'))
