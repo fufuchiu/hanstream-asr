@@ -72,3 +72,8 @@ def test_probability_rejects_0():
 def test_probability_rejects_1():
     with pytest.raises(ValueError):
         m.probability(1.01)
+
+
+def test_probability_rejects_2():
+    with pytest.raises(ValueError):
+        m.probability(True)
