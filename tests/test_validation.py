@@ -67,3 +67,8 @@ def test_finite_rejects_5():
 def test_probability_rejects_0():
     with pytest.raises(ValueError):
         m.probability(-0.01)
+
+
+def test_probability_rejects_1():
+    with pytest.raises(ValueError):
+        m.probability(1.01)
