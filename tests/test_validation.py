@@ -91,3 +91,7 @@ def test_probability_rejects_4():
 
 def test_integer():
     assert m.positive_int(np.int64(7)) == 7
+
+
+def test_finite_zero():
+    assert m.finite(0) == 0.0
