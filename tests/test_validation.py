@@ -87,3 +87,7 @@ def test_probability_rejects_3():
 def test_probability_rejects_4():
     with pytest.raises(ValueError):
         m.probability(float('inf'))
+
+
+def test_integer():
+    assert m.positive_int(np.int64(7)) == 7
