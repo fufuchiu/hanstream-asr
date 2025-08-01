@@ -62,3 +62,8 @@ def test_finite_rejects_4():
 def test_finite_rejects_5():
     with pytest.raises(ValueError):
         m.finite(-float('inf'))
+
+
+def test_probability_rejects_0():
+    with pytest.raises(ValueError):
+        m.probability(-0.01)
