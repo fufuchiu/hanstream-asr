@@ -113,3 +113,8 @@ def test_waveform_shape_and_finiteness_0():
 def test_waveform_shape_and_finiteness_1():
     with pytest.raises(ValueError):
         m.waveform([float('nan')])
+
+
+def test_waveform_shape_and_finiteness_2():
+    with pytest.raises(ValueError):
+        m.waveform([float('inf')])
