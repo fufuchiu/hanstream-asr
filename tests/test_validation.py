@@ -118,3 +118,8 @@ def test_waveform_shape_and_finiteness_1():
 def test_waveform_shape_and_finiteness_2():
     with pytest.raises(ValueError):
         m.waveform([float('inf')])
+
+
+def test_waveform_shape_and_finiteness_3():
+    with pytest.raises(ValueError):
+        m.waveform(1)
