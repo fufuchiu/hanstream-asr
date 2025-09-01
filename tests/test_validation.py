@@ -95,3 +95,7 @@ def test_integer():
 
 def test_finite_zero():
     assert m.finite(0) == 0.0
+
+
+def test_probability_zero():
+    assert m.probability(0) == 0
