@@ -99,3 +99,7 @@ def test_finite_zero():
 
 def test_probability_zero():
     assert m.probability(0) == 0
+
+
+def test_probability_one():
+    assert m.probability(1) == 1
