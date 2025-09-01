@@ -17,3 +17,7 @@ def test_normalize_tabs():
 
 def test_normalize_chinese():
     assert m.normalize('广州大学，语音识别！') == '广州大学 语音识别'
+
+
+def test_normalize_fullwidth():
+    assert m.normalize('ＡＢＣ１２３') == 'abc123'
