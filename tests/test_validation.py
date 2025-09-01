@@ -82,3 +82,8 @@ def test_probability_rejects_2():
 def test_probability_rejects_3():
     with pytest.raises(ValueError):
         m.probability(float('nan'))
+
+
+def test_probability_rejects_4():
+    with pytest.raises(ValueError):
+        m.probability(float('inf'))
