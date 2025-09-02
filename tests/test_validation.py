@@ -103,3 +103,8 @@ def test_probability_zero():
 
 def test_probability_one():
     assert m.probability(1) == 1
+
+
+def test_waveform_shape_and_finiteness_0():
+    with pytest.raises(ValueError):
+        m.waveform([[1, 2]])
