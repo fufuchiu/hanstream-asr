@@ -123,3 +123,8 @@ def test_waveform_shape_and_finiteness_2():
 def test_waveform_shape_and_finiteness_3():
     with pytest.raises(ValueError):
         m.waveform(1)
+
+
+def test_matrix_contract_0():
+    with pytest.raises(ValueError):
+        m.matrix([])
