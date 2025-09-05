@@ -143,3 +143,8 @@ def test_matrix_contract_2():
 def test_matrix_contract_3():
     with pytest.raises(ValueError):
         m.matrix([[float('nan')]])
+
+
+def test_matrix_contract_4():
+    with pytest.raises(ValueError):
+        m.matrix([[float('inf')]])
