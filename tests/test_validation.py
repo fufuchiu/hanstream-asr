@@ -133,3 +133,8 @@ def test_matrix_contract_0():
 def test_matrix_contract_1():
     with pytest.raises(ValueError):
         m.matrix([1, 2])
+
+
+def test_matrix_contract_2():
+    with pytest.raises(ValueError):
+        m.matrix([[]])
