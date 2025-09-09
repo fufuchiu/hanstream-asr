@@ -29,3 +29,7 @@ def test_normalize_accent():
 
 def test_normalize_combining():
     assert m.normalize('café') == 'café'
+
+
+def test_normalize_apostrophe():
+    assert m.normalize("don't") == 'don t'
