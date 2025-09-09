@@ -21,3 +21,7 @@ def test_normalize_chinese():
 
 def test_normalize_fullwidth():
     assert m.normalize('ＡＢＣ１２３') == 'abc123'
+
+
+def test_normalize_accent():
+    assert m.normalize('CAFÉ') == 'café'
