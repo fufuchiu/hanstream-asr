@@ -148,3 +148,10 @@ def test_matrix_contract_3():
 def test_matrix_contract_4():
     with pytest.raises(ValueError):
         m.matrix([[float('inf')]])
+
+
+def test_waveform_owns_storage():
+    x = np.array([1.0, 2.0])
+    y = m.waveform(x)
+    y[0] = 9
+    assert x[0] == 1
