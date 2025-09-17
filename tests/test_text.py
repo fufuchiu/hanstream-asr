@@ -37,3 +37,7 @@ def test_normalize_apostrophe():
 
 def test_normalize_hyphen():
     assert m.normalize('speech-to-text') == 'speech to text'
+
+
+def test_normalize_emoji():
+    assert m.normalize('你好🙂') == '你好🙂'
