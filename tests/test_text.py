@@ -45,3 +45,7 @@ def test_normalize_emoji():
 
 def test_normalize_japanese():
     assert m.normalize('音声、認識。') == '音声 認識'
+
+
+def test_normalize_korean():
+    assert m.normalize('음성 인식') == '음성 인식'
