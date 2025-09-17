@@ -41,3 +41,7 @@ def test_normalize_hyphen():
 
 def test_normalize_emoji():
     assert m.normalize('你好🙂') == '你好🙂'
+
+
+def test_normalize_japanese():
+    assert m.normalize('音声、認識。') == '音声 認識'
