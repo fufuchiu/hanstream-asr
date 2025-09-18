@@ -13,3 +13,7 @@ def test_normalize_spaces():
 
 def test_normalize_tabs():
     assert m.normalize('a\tb\nc') == 'a b c'
+
+
+def test_normalize_chinese():
+    assert m.normalize('广州大学，语音识别！') == '广州大学 语音识别'
