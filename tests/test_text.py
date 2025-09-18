@@ -9,3 +9,7 @@ def test_normalize_ascii_case():
 
 def test_normalize_spaces():
     assert m.normalize(' a  b ') == 'a b'
+
+
+def test_normalize_tabs():
+    assert m.normalize('a\tb\nc') == 'a b c'
