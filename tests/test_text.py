@@ -25,3 +25,7 @@ def test_normalize_fullwidth():
 
 def test_normalize_accent():
     assert m.normalize('CAFÉ') == 'café'
+
+
+def test_normalize_combining():
+    assert m.normalize('café') == 'café'
