@@ -33,3 +33,7 @@ def test_normalize_combining():
 
 def test_normalize_apostrophe():
     assert m.normalize("don't") == 'don t'
+
+
+def test_normalize_hyphen():
+    assert m.normalize('speech-to-text') == 'speech to text'
