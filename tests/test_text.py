@@ -49,3 +49,7 @@ def test_normalize_japanese():
 
 def test_normalize_korean():
     assert m.normalize('음성 인식') == '음성 인식'
+
+
+def test_normalize_arabic():
+    assert m.normalize('مرحبا، عالم') == 'مرحبا عالم'
