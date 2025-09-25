@@ -65,3 +65,7 @@ def test_normalize_greek():
 
 def test_normalize_nbsp():
     assert m.normalize('a\xa0b') == 'a b'
+
+
+def test_normalize_ideographic_space():
+    assert m.normalize('a\u3000b') == 'a b'
