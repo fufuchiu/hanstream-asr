@@ -61,3 +61,7 @@ def test_normalize_cyrillic():
 
 def test_normalize_greek():
     assert m.normalize('ΑΛΦΑ') == 'αλφα'
+
+
+def test_normalize_nbsp():
+    assert m.normalize('a\xa0b') == 'a b'
