@@ -57,3 +57,7 @@ def test_normalize_arabic():
 
 def test_normalize_cyrillic():
     assert m.normalize('ПРИВЕТ') == 'привет'
+
+
+def test_normalize_greek():
+    assert m.normalize('ΑΛΦΑ') == 'αλφα'
