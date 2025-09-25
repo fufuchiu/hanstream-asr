@@ -53,3 +53,7 @@ def test_normalize_korean():
 
 def test_normalize_arabic():
     assert m.normalize('مرحبا، عالم') == 'مرحبا عالم'
+
+
+def test_normalize_cyrillic():
+    assert m.normalize('ПРИВЕТ') == 'привет'
