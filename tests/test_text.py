@@ -73,3 +73,7 @@ def test_normalize_ideographic_space():
 
 def test_normalize_ligature():
     assert m.normalize('ﬁle') == 'file'
+
+
+def test_normalize_circled():
+    assert m.normalize('①②') == '12'
