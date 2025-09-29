@@ -85,3 +85,7 @@ def test_normalize_math_symbol():
 
 def test_normalize_only_punctuation():
     assert m.normalize('！？…') == ''
+
+
+def test_normalize_empty():
+    assert m.normalize('') == ''
