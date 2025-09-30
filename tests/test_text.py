@@ -89,3 +89,7 @@ def test_normalize_only_punctuation():
 
 def test_normalize_empty():
     assert m.normalize('') == ''
+
+
+def test_normalize_newlines():
+    assert m.normalize('\n\r\t') == ''
