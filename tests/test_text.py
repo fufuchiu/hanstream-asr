@@ -81,3 +81,7 @@ def test_normalize_circled():
 
 def test_normalize_math_symbol():
     assert m.normalize('x+y=2') == 'x+y=2'
+
+
+def test_normalize_only_punctuation():
+    assert m.normalize('！？…') == ''
