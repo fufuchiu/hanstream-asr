@@ -77,3 +77,7 @@ def test_normalize_ligature():
 
 def test_normalize_circled():
     assert m.normalize('①②') == '12'
+
+
+def test_normalize_math_symbol():
+    assert m.normalize('x+y=2') == 'x+y=2'
