@@ -69,3 +69,7 @@ def test_normalize_nbsp():
 
 def test_normalize_ideographic_space():
     assert m.normalize('a\u3000b') == 'a b'
+
+
+def test_normalize_ligature():
+    assert m.normalize('ﬁle') == 'file'
