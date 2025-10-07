@@ -93,3 +93,7 @@ def test_normalize_empty():
 
 def test_normalize_newlines():
     assert m.normalize('\n\r\t') == ''
+
+
+def test_normalize_digits():
+    assert m.normalize('123.45') == '123 45'
