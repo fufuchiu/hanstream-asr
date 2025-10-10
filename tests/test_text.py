@@ -97,3 +97,7 @@ def test_normalize_newlines():
 
 def test_normalize_digits():
     assert m.normalize('123.45') == '123 45'
+
+
+def test_normalize_quotes():
+    assert m.normalize('“语音”') == '语音'
