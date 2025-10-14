@@ -117,3 +117,7 @@ def test_normalize_german():
 
 def test_normalize_hindi():
     assert m.normalize('नमस्ते') == 'नमस्ते'
+
+
+def test_normalize_brackets():
+    assert m.normalize('[one] (two)') == 'one two'
