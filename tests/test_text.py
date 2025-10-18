@@ -113,3 +113,7 @@ def test_normalize_slash():
 
 def test_normalize_german():
     assert m.normalize('Straße') == 'straße'
+
+
+def test_normalize_hindi():
+    assert m.normalize('नमस्ते') == 'नमस्ते'
