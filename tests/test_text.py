@@ -105,3 +105,7 @@ def test_normalize_quotes():
 
 def test_normalize_underscore():
     assert m.normalize('a_b') == 'a b'
+
+
+def test_normalize_slash():
+    assert m.normalize('a/b') == 'a b'
