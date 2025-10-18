@@ -101,3 +101,7 @@ def test_normalize_digits():
 
 def test_normalize_quotes():
     assert m.normalize('“语音”') == '语音'
+
+
+def test_normalize_underscore():
+    assert m.normalize('a_b') == 'a b'
