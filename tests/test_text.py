@@ -109,3 +109,7 @@ def test_normalize_underscore():
 
 def test_normalize_slash():
     assert m.normalize('a/b') == 'a b'
+
+
+def test_normalize_german():
+    assert m.normalize('Straße') == 'straße'
