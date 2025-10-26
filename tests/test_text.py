@@ -121,3 +121,7 @@ def test_normalize_hindi():
 
 def test_normalize_brackets():
     assert m.normalize('[one] (two)') == 'one two'
+
+
+def test_preserve_case():
+    assert m.normalize('ABC', m.TextPolicy(lowercase=False)) == 'ABC'
