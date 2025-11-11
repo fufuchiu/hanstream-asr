@@ -159,3 +159,7 @@ def test_vocabulary_order():
 
 def test_unknown_encoding():
     assert m.encode('az', ('<blank>', '<unk>', 'a')) == [2, 1]
+
+
+def test_unknown_decoding():
+    assert m.decode([0, 2, 1], ('<blank>', '<unk>', 'a')) == 'a�'
