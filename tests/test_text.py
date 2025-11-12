@@ -125,3 +125,7 @@ def test_normalize_brackets():
 
 def test_preserve_case():
     assert m.normalize('ABC', m.TextPolicy(lowercase=False)) == 'ABC'
+
+
+def test_preserve_punctuation():
+    assert m.normalize('Hi!', m.TextPolicy(punctuation=True)) == 'hi!'
