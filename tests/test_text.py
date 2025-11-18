@@ -133,3 +133,7 @@ def test_preserve_punctuation():
 
 def test_disable_compatibility():
     assert m.normalize('Ａ', m.TextPolicy(compatibility=False, lowercase=False)) == 'Ａ'
+
+
+def test_characters_remove_spaces():
+    assert m.tokens('广 州 大学', 'char') == ['广', '州', '大', '学']
