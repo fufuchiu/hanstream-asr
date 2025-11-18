@@ -146,3 +146,8 @@ def test_word_tokens():
 def test_invalid_unit():
     with pytest.raises(ValueError):
         m.tokens('a', 'syllable')
+
+
+def test_nonstring():
+    with pytest.raises(ValueError):
+        m.normalize(12)
