@@ -129,3 +129,7 @@ def test_preserve_case():
 
 def test_preserve_punctuation():
     assert m.normalize('Hi!', m.TextPolicy(punctuation=True)) == 'hi!'
+
+
+def test_disable_compatibility():
+    assert m.normalize('Ａ', m.TextPolicy(compatibility=False, lowercase=False)) == 'Ａ'
