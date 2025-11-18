@@ -137,3 +137,7 @@ def test_disable_compatibility():
 
 def test_characters_remove_spaces():
     assert m.tokens('广 州 大学', 'char') == ['广', '州', '大', '学']
+
+
+def test_word_tokens():
+    assert m.tokens('A, B') == ['a', 'b']
