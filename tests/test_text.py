@@ -141,3 +141,8 @@ def test_characters_remove_spaces():
 
 def test_word_tokens():
     assert m.tokens('A, B') == ['a', 'b']
+
+
+def test_invalid_unit():
+    with pytest.raises(ValueError):
+        m.tokens('a', 'syllable')
