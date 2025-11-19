@@ -168,3 +168,8 @@ def test_unknown_decoding():
 def test_invalid_vocabulary_0():
     with pytest.raises(ValueError):
         m.check_vocabulary(())
+
+
+def test_invalid_vocabulary_1():
+    with pytest.raises(ValueError):
+        m.check_vocabulary(('<unk>', '<blank>'))
