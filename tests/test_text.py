@@ -163,3 +163,8 @@ def test_unknown_encoding():
 
 def test_unknown_decoding():
     assert m.decode([0, 2, 1], ('<blank>', '<unk>', 'a')) == 'a�'
+
+
+def test_invalid_vocabulary_0():
+    with pytest.raises(ValueError):
+        m.check_vocabulary(())
