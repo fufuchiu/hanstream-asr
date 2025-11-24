@@ -151,3 +151,7 @@ def test_invalid_unit():
 def test_nonstring():
     with pytest.raises(ValueError):
         m.normalize(12)
+
+
+def test_vocabulary_order():
+    assert m.make_vocabulary(['ba', 'a']) == ('<blank>', '<unk>', 'a', 'b')
