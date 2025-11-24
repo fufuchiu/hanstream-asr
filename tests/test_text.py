@@ -155,3 +155,7 @@ def test_nonstring():
 
 def test_vocabulary_order():
     assert m.make_vocabulary(['ba', 'a']) == ('<blank>', '<unk>', 'a', 'b')
+
+
+def test_unknown_encoding():
+    assert m.encode('az', ('<blank>', '<unk>', 'a')) == [2, 1]
