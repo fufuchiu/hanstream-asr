@@ -178,3 +178,8 @@ def test_invalid_vocabulary_1():
 def test_invalid_vocabulary_2():
     with pytest.raises(ValueError):
         m.check_vocabulary(('<blank>', '<unk>', 'aa'))
+
+
+def test_invalid_vocabulary_3():
+    with pytest.raises(ValueError):
+        m.check_vocabulary(('<blank>', '<unk>', 'a', 'a'))
