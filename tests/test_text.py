@@ -188,3 +188,8 @@ def test_invalid_vocabulary_3():
 def test_invalid_id_0():
     with pytest.raises(ValueError):
         m.decode([-1], ('<blank>', '<unk>', 'a'))
+
+
+def test_invalid_id_1():
+    with pytest.raises(ValueError):
+        m.decode([3], ('<blank>', '<unk>', 'a'))
