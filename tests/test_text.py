@@ -198,3 +198,8 @@ def test_invalid_id_1():
 def test_invalid_id_2():
     with pytest.raises(ValueError):
         m.decode([True], ('<blank>', '<unk>', 'a'))
+
+
+def test_invalid_id_3():
+    with pytest.raises(ValueError):
+        m.decode([1.5], ('<blank>', '<unk>', 'a'))
