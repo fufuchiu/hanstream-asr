@@ -153,3 +153,15 @@ def test_noise_deterministic():
 
 def test_noise_silence():
     assert m.add_noise([0, 0], 0).tolist() == [0, 0]
+
+
+def test_wav_roundtrip():
+    import tempfile
+    from pathlib import Path
+
+    with tempfile.TemporaryDirectory() as d:
+        p = Path(d) / 'a.wav'
+        m.write_wav(p, [-1, 0, 0.5], 8000)
+        x, rate = m.read_wav(p)
+    assert rate == 8000
+    assert x.tolist() == [-1, 0, 0.5]
