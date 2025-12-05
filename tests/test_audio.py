@@ -181,3 +181,19 @@ def test_wav_stereo_average():
             w.writeframes(m.encode_pcm16([0.5, -0.5, 0.25, 0.75]))
         x, _ = m.read_wav(p)
     assert x.tolist() == [0, 0.5]
+
+
+def test_wav_rejects_8bit():
+    import tempfile
+    import wave
+    from pathlib import Path
+
+    with tempfile.TemporaryDirectory() as d:
+        p = Path(d) / 'a.wav'
+        with wave.open(str(p), 'wb') as w:
+            w.setnchannels(1)
+            w.setsampwidth(1)
+            w.setframerate(8000)
+            w.writeframes(b'xx')
+        with pytest.raises(ValueError):
+            m.read_wav(p)
