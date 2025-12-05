@@ -165,3 +165,19 @@ def test_wav_roundtrip():
         x, rate = m.read_wav(p)
     assert rate == 8000
     assert x.tolist() == [-1, 0, 0.5]
+
+
+def test_wav_stereo_average():
+    import tempfile
+    import wave
+    from pathlib import Path
+
+    with tempfile.TemporaryDirectory() as d:
+        p = Path(d) / 'a.wav'
+        with wave.open(str(p), 'wb') as w:
+            w.setnchannels(2)
+            w.setsampwidth(2)
+            w.setframerate(16000)
+            w.writeframes(m.encode_pcm16([0.5, -0.5, 0.25, 0.75]))
+        x, _ = m.read_wav(p)
+    assert x.tolist() == [0, 0.5]
