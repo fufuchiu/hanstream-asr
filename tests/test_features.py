@@ -22,3 +22,7 @@ def test_empty_features():
 
 def test_silence_features():
     assert m.log_mel([0] * 160).shape == (1, 40)
+
+
+def test_cmvn_constant():
+    assert m.cmvn([[3, 4], [3, 4]]).tolist() == [[0, 0], [0, 0]]
