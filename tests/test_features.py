@@ -30,3 +30,7 @@ def test_cmvn_constant():
 
 def test_delta_constant():
     assert m.delta([[3], [3], [3]]).tolist() == [[0], [0], [0]]
+
+
+def test_delta_ramp():
+    assert m.delta([[0], [1], [2]], 1).ravel().tolist() == [0.5, 1, 0.5]
