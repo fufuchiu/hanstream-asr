@@ -14,3 +14,7 @@ def test_hertz_zero():
 
 def test_mel_1000():
     assert float(m.hz_to_mel(1000)) == pytest.approx(999.9855371396244)
+
+
+def test_empty_features():
+    assert m.log_mel([]).shape == (0, 40)
