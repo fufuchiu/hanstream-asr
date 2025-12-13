@@ -18,3 +18,7 @@ def test_mel_1000():
 
 def test_empty_features():
     assert m.log_mel([]).shape == (0, 40)
+
+
+def test_silence_features():
+    assert m.log_mel([0] * 160).shape == (1, 40)
