@@ -34,3 +34,7 @@ def test_delta_constant():
 
 def test_delta_ramp():
     assert m.delta([[0], [1], [2]], 1).ravel().tolist() == [0.5, 1, 0.5]
+
+
+def test_mask_all_time():
+    assert m.mask_features([[1, 2], [3, 4]], 2).tolist() == [[0, 0], [0, 0]]
