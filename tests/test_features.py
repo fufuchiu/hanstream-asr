@@ -42,3 +42,8 @@ def test_mask_all_time():
 
 def test_mask_all_frequency():
     assert m.mask_features([[1, 2], [3, 4]], 0, 2).tolist() == [[0, 0], [0, 0]]
+
+
+def test_negative_hz():
+    with pytest.raises(ValueError):
+        m.hz_to_mel(-1)
