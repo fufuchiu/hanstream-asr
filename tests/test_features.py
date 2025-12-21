@@ -26,3 +26,7 @@ def test_silence_features():
 
 def test_cmvn_constant():
     assert m.cmvn([[3, 4], [3, 4]]).tolist() == [[0, 0], [0, 0]]
+
+
+def test_delta_constant():
+    assert m.delta([[3], [3], [3]]).tolist() == [[0], [0], [0]]
