@@ -38,3 +38,7 @@ def test_delta_ramp():
 
 def test_mask_all_time():
     assert m.mask_features([[1, 2], [3, 4]], 2).tolist() == [[0, 0], [0, 0]]
+
+
+def test_mask_all_frequency():
+    assert m.mask_features([[1, 2], [3, 4]], 0, 2).tolist() == [[0, 0], [0, 0]]
