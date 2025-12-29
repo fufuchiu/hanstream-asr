@@ -47,3 +47,8 @@ def test_mask_all_frequency():
 def test_negative_hz():
     with pytest.raises(ValueError):
         m.hz_to_mel(-1)
+
+
+def test_nan_hz():
+    with pytest.raises(ValueError):
+        m.hz_to_mel(float('nan'))
