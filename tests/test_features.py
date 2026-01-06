@@ -67,3 +67,8 @@ def test_overflow_mel():
 def test_fft_truncation():
     with pytest.raises(ValueError):
         m.power_spectrum([[1] * 8], 4)
+
+
+def test_zero_fft():
+    with pytest.raises(ValueError):
+        m.power_spectrum([[1]], 0)
