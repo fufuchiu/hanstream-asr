@@ -57,3 +57,8 @@ def test_nan_hz():
 def test_negative_mel():
     with pytest.raises(ValueError):
         m.mel_to_hz(-1)
+
+
+def test_overflow_mel():
+    with pytest.raises(ValueError):
+        m.mel_to_hz(100001)
