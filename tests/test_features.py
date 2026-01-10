@@ -62,3 +62,8 @@ def test_negative_mel():
 def test_overflow_mel():
     with pytest.raises(ValueError):
         m.mel_to_hz(100001)
+
+
+def test_fft_truncation():
+    with pytest.raises(ValueError):
+        m.power_spectrum([[1] * 8], 4)
