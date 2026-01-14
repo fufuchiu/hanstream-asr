@@ -87,3 +87,8 @@ def test_above_nyquist():
 def test_reversed_bounds():
     with pytest.raises(ValueError):
         m.mel_filterbank(f_min=4000, f_max=2000)
+
+
+def test_empty_filters():
+    with pytest.raises(ValueError):
+        m.mel_filterbank(n_fft=4, n_mels=40)
