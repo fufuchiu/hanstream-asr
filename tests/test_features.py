@@ -92,3 +92,8 @@ def test_reversed_bounds():
 def test_empty_filters():
     with pytest.raises(ValueError):
         m.mel_filterbank(n_fft=4, n_mels=40)
+
+
+def test_zero_epsilon():
+    with pytest.raises(ValueError):
+        m.cmvn([[1]], 0)
