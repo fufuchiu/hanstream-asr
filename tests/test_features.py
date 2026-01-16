@@ -72,3 +72,8 @@ def test_fft_truncation():
 def test_zero_fft():
     with pytest.raises(ValueError):
         m.power_spectrum([[1]], 0)
+
+
+def test_negative_low():
+    with pytest.raises(ValueError):
+        m.mel_filterbank(f_min=-1)
