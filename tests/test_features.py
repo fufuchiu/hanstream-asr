@@ -77,3 +77,8 @@ def test_zero_fft():
 def test_negative_low():
     with pytest.raises(ValueError):
         m.mel_filterbank(f_min=-1)
+
+
+def test_above_nyquist():
+    with pytest.raises(ValueError):
+        m.mel_filterbank(f_max=9000)
