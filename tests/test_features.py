@@ -112,3 +112,8 @@ def test_negative_mask():
 def test_oversized_time_mask():
     with pytest.raises(ValueError):
         m.mask_features([[1]], 2)
+
+
+def test_oversized_frequency_mask():
+    with pytest.raises(ValueError):
+        m.mask_features([[1]], 0, 2)
