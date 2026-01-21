@@ -102,3 +102,8 @@ def test_zero_epsilon():
 def test_negative_delta():
     with pytest.raises(ValueError):
         m.delta([[1]], 0)
+
+
+def test_negative_mask():
+    with pytest.raises(ValueError):
+        m.mask_features([[1]], -1)
