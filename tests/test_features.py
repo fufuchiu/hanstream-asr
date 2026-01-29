@@ -134,3 +134,9 @@ def test_filterbank_shape():
     assert x.shape == (40, 257)
     assert (x >= 0).all()
     assert (x <= 1 + 1e-12).all()
+
+
+def test_cmvn_standard():
+    x = m.cmvn([[1, 4], [2, 8], [3, 12]])
+    assert x.mean(0) == pytest.approx([0, 0], abs=1e-12)
+    assert x.std(0) == pytest.approx([1, 1])
