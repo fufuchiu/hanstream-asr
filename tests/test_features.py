@@ -122,3 +122,8 @@ def test_oversized_frequency_mask():
 def test_boolean_mask():
     with pytest.raises(ValueError):
         m.mask_features([[1]], True)
+
+
+def test_mel_inverse():
+    x = np.array([0, 100, 1000, 4000, 8000])
+    assert m.mel_to_hz(m.hz_to_mel(x)) == pytest.approx(x)
