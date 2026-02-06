@@ -144,3 +144,9 @@ def test_cmvn_standard():
 
 def test_silence_floor():
     assert m.log_mel([0] * 400) == pytest.approx(np.full((3, 40), np.log(1e-10)))
+
+
+def test_mask_no_mutation():
+    x = np.ones((5, 6))
+    m.mask_features(x, 2, 3)
+    assert x.sum() == 30
