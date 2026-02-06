@@ -150,3 +150,8 @@ def test_mask_no_mutation():
     x = np.ones((5, 6))
     m.mask_features(x, 2, 3)
     assert x.sum() == 30
+
+
+def test_mask_reproducible():
+    x = np.ones((5, 6))
+    assert np.array_equal(m.mask_features(x, 2, 3, 9), m.mask_features(x, 2, 3, 9))
