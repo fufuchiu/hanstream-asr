@@ -97,3 +97,8 @@ def test_empty_filters():
 def test_zero_epsilon():
     with pytest.raises(ValueError):
         m.cmvn([[1]], 0)
+
+
+def test_negative_delta():
+    with pytest.raises(ValueError):
+        m.delta([[1]], 0)
