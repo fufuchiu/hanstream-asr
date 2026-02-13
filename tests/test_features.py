@@ -107,3 +107,8 @@ def test_negative_delta():
 def test_negative_mask():
     with pytest.raises(ValueError):
         m.mask_features([[1]], -1)
+
+
+def test_oversized_time_mask():
+    with pytest.raises(ValueError):
+        m.mask_features([[1]], 2)
