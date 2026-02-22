@@ -43,3 +43,10 @@ def test_edit_leading_insert():
     assert (r.substitutions, r.deletions, r.insertions, r.hits) == (0, 0, 1, 2)
     assert r.errors == 1
     assert r.reference_length == 2
+
+
+def test_edit_trailing_insert():
+    r = m.edit_counts('ab', 'abx')
+    assert (r.substitutions, r.deletions, r.insertions, r.hits) == (0, 0, 1, 2)
+    assert r.errors == 1
+    assert r.reference_length == 2
