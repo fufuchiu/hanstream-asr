@@ -71,3 +71,10 @@ def test_edit_trailing_delete():
     assert (r.substitutions, r.deletions, r.insertions, r.hits) == (0, 1, 0, 2)
     assert r.errors == 1
     assert r.reference_length == 3
+
+
+def test_edit_middle_delete():
+    r = m.edit_counts('axb', 'ab')
+    assert (r.substitutions, r.deletions, r.insertions, r.hits) == (0, 1, 0, 2)
+    assert r.errors == 1
+    assert r.reference_length == 3
