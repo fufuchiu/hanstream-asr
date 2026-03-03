@@ -127,3 +127,10 @@ def test_boolean_mask():
 def test_mel_inverse():
     x = np.array([0, 100, 1000, 4000, 8000])
     assert m.mel_to_hz(m.hz_to_mel(x)) == pytest.approx(x)
+
+
+def test_filterbank_shape():
+    x = m.mel_filterbank()
+    assert x.shape == (40, 257)
+    assert (x >= 0).all()
+    assert (x <= 1 + 1e-12).all()
