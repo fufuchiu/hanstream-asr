@@ -106,3 +106,10 @@ def test_edit_chinese():
     assert (r.substitutions, r.deletions, r.insertions, r.hits) == (1, 0, 0, 3)
     assert r.errors == 1
     assert r.reference_length == 4
+
+
+def test_edit_mixed():
+    r = m.edit_counts('ASR语音', 'ASR语音')
+    assert (r.substitutions, r.deletions, r.insertions, r.hits) == (0, 0, 0, 5)
+    assert r.errors == 0
+    assert r.reference_length == 5
