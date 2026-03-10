@@ -99,3 +99,10 @@ def test_edit_swap():
     assert (r.substitutions, r.deletions, r.insertions, r.hits) == (2, 0, 0, 0)
     assert r.errors == 2
     assert r.reference_length == 2
+
+
+def test_edit_chinese():
+    r = m.edit_counts('语音识别', '语音识字')
+    assert (r.substitutions, r.deletions, r.insertions, r.hits) == (1, 0, 0, 3)
+    assert r.errors == 1
+    assert r.reference_length == 4
