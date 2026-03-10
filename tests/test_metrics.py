@@ -113,3 +113,10 @@ def test_edit_mixed():
     assert (r.substitutions, r.deletions, r.insertions, r.hits) == (0, 0, 0, 5)
     assert r.errors == 0
     assert r.reference_length == 5
+
+
+def test_edit_all_replace():
+    r = m.edit_counts('aaa', 'bbb')
+    assert (r.substitutions, r.deletions, r.insertions, r.hits) == (3, 0, 0, 0)
+    assert r.errors == 3
+    assert r.reference_length == 3
