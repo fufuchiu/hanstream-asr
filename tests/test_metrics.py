@@ -134,3 +134,10 @@ def test_edit_many_to_one():
     assert (r.substitutions, r.deletions, r.insertions, r.hits) == (0, 2, 0, 1)
     assert r.errors == 2
     assert r.reference_length == 3
+
+
+def test_edit_emoji():
+    r = m.edit_counts('🙂x', '🙂y')
+    assert (r.substitutions, r.deletions, r.insertions, r.hits) == (1, 0, 0, 1)
+    assert r.errors == 1
+    assert r.reference_length == 2
