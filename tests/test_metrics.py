@@ -145,3 +145,7 @@ def test_edit_emoji():
 
 def test_empty_reference_insert_rate():
     assert m.score('', 'a b').rate == 2
+
+
+def test_cer_ignores_spaces():
+    assert m.score('广 州', '广州', 'char').rate == 0
