@@ -157,3 +157,7 @@ def test_micro_average():
 
 def test_empty_corpus():
     assert m.corpus_score([], []).rate == 0
+
+
+def test_sentence_rate():
+    assert m.sentence_error_rate(['a', 'b'], ['a', 'c']) == 0.5
