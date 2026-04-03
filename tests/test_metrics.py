@@ -165,3 +165,8 @@ def test_sentence_rate():
 
 def test_confusion_counts():
     assert m.confusion_pairs('abab', 'acac') == {('b', 'c'): 2}
+
+
+def test_corpus_length_mismatch():
+    with pytest.raises(ValueError):
+        m.corpus_score(['a'], [])
