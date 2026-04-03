@@ -161,3 +161,7 @@ def test_empty_corpus():
 
 def test_sentence_rate():
     assert m.sentence_error_rate(['a', 'b'], ['a', 'c']) == 0.5
+
+
+def test_confusion_counts():
+    assert m.confusion_pairs('abab', 'acac') == {('b', 'c'): 2}
