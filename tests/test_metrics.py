@@ -22,3 +22,10 @@ def test_edit_delete():
     assert (r.substitutions, r.deletions, r.insertions, r.hits) == (0, 2, 0, 0)
     assert r.errors == 2
     assert r.reference_length == 2
+
+
+def test_edit_hit():
+    r = m.edit_counts('abc', 'abc')
+    assert (r.substitutions, r.deletions, r.insertions, r.hits) == (0, 0, 0, 3)
+    assert r.errors == 0
+    assert r.reference_length == 3
