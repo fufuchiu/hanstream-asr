@@ -36,3 +36,10 @@ def test_edit_sub():
     assert (r.substitutions, r.deletions, r.insertions, r.hits) == (1, 0, 0, 2)
     assert r.errors == 1
     assert r.reference_length == 3
+
+
+def test_edit_leading_insert():
+    r = m.edit_counts('ab', 'xab')
+    assert (r.substitutions, r.deletions, r.insertions, r.hits) == (0, 0, 1, 2)
+    assert r.errors == 1
+    assert r.reference_length == 2
