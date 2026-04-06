@@ -29,3 +29,10 @@ def test_edit_hit():
     assert (r.substitutions, r.deletions, r.insertions, r.hits) == (0, 0, 0, 3)
     assert r.errors == 0
     assert r.reference_length == 3
+
+
+def test_edit_sub():
+    r = m.edit_counts('abc', 'adc')
+    assert (r.substitutions, r.deletions, r.insertions, r.hits) == (1, 0, 0, 2)
+    assert r.errors == 1
+    assert r.reference_length == 3
