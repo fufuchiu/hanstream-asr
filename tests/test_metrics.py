@@ -57,3 +57,10 @@ def test_edit_middle_insert():
     assert (r.substitutions, r.deletions, r.insertions, r.hits) == (0, 0, 1, 2)
     assert r.errors == 1
     assert r.reference_length == 2
+
+
+def test_edit_leading_delete():
+    r = m.edit_counts('xab', 'ab')
+    assert (r.substitutions, r.deletions, r.insertions, r.hits) == (0, 1, 0, 2)
+    assert r.errors == 1
+    assert r.reference_length == 3
