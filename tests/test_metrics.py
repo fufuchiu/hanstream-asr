@@ -85,3 +85,10 @@ def test_edit_repeat_delete():
     assert (r.substitutions, r.deletions, r.insertions, r.hits) == (0, 1, 0, 2)
     assert r.errors == 1
     assert r.reference_length == 3
+
+
+def test_edit_repeat_insert():
+    r = m.edit_counts('aa', 'aaa')
+    assert (r.substitutions, r.deletions, r.insertions, r.hits) == (0, 0, 1, 2)
+    assert r.errors == 1
+    assert r.reference_length == 2
