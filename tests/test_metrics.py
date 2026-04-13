@@ -92,3 +92,10 @@ def test_edit_repeat_insert():
     assert (r.substitutions, r.deletions, r.insertions, r.hits) == (0, 0, 1, 2)
     assert r.errors == 1
     assert r.reference_length == 2
+
+
+def test_edit_swap():
+    r = m.edit_counts('ab', 'ba')
+    assert (r.substitutions, r.deletions, r.insertions, r.hits) == (2, 0, 0, 0)
+    assert r.errors == 2
+    assert r.reference_length == 2
