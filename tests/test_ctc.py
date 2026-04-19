@@ -31,3 +31,8 @@ def test_collapse_nonzero_blank():
 def test_bad_path_0():
     with pytest.raises(ValueError):
         m.collapse([-1])
+
+
+def test_bad_path_1():
+    with pytest.raises(ValueError):
+        m.collapse([True])
