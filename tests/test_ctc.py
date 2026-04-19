@@ -18,3 +18,7 @@ def test_collapse_repeat():
 
 def test_collapse_separated():
     assert m.collapse([1, 0, 1], 0) == (1, 1)
+
+
+def test_collapse_mixed():
+    assert m.collapse([0, 1, 1, 2, 0, 2], 0) == (1, 2, 2)
