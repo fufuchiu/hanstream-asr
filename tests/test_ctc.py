@@ -36,3 +36,8 @@ def test_bad_path_0():
 def test_bad_path_1():
     with pytest.raises(ValueError):
         m.collapse([True])
+
+
+def test_bad_path_2():
+    with pytest.raises(ValueError):
+        m.collapse([1.2])
