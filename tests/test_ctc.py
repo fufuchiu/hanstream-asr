@@ -41,3 +41,8 @@ def test_bad_path_1():
 def test_bad_path_2():
     with pytest.raises(ValueError):
         m.collapse([1.2])
+
+
+def test_bad_blank():
+    with pytest.raises(ValueError):
+        m.greedy(np.log([[0.5, 0.5]]), 2)
