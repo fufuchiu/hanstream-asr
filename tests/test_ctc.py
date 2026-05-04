@@ -61,3 +61,8 @@ def test_nan():
 def test_positive_inf():
     with pytest.raises(ValueError):
         m.greedy([[float('inf'), 0]])
+
+
+def test_all_impossible():
+    with pytest.raises(ValueError):
+        m.greedy([[-float('inf'), -float('inf')]])
