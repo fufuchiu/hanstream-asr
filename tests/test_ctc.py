@@ -56,3 +56,8 @@ def test_unnormalized():
 def test_nan():
     with pytest.raises(ValueError):
         m.greedy([[float('nan'), 0]])
+
+
+def test_positive_inf():
+    with pytest.raises(ValueError):
+        m.greedy([[float('inf'), 0]])
