@@ -86,3 +86,7 @@ def test_blank_target():
 def test_out_of_range_target():
     with pytest.raises(ValueError):
         m.forced_align(np.log([[0.5, 0.5]]), [2])
+
+
+def test_logadd_empty():
+    assert m.logadd() == -float('inf')
