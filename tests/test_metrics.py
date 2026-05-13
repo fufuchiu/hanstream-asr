@@ -120,3 +120,10 @@ def test_edit_all_replace():
     assert (r.substitutions, r.deletions, r.insertions, r.hits) == (3, 0, 0, 0)
     assert r.errors == 3
     assert r.reference_length == 3
+
+
+def test_edit_one_to_many():
+    r = m.edit_counts('a', 'abc')
+    assert (r.substitutions, r.deletions, r.insertions, r.hits) == (0, 0, 2, 1)
+    assert r.errors == 2
+    assert r.reference_length == 1
