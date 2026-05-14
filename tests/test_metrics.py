@@ -149,3 +149,7 @@ def test_empty_reference_insert_rate():
 
 def test_cer_ignores_spaces():
     assert m.score('广 州', '广州', 'char').rate == 0
+
+
+def test_micro_average():
+    assert m.corpus_score(['a', 'a b c'], ['x', 'a b c']).rate == 0.25
