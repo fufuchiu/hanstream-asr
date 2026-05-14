@@ -153,3 +153,7 @@ def test_cer_ignores_spaces():
 
 def test_micro_average():
     assert m.corpus_score(['a', 'a b c'], ['x', 'a b c']).rate == 0.25
+
+
+def test_empty_corpus():
+    assert m.corpus_score([], []).rate == 0
