@@ -141,3 +141,7 @@ def test_edit_emoji():
     assert (r.substitutions, r.deletions, r.insertions, r.hits) == (1, 0, 0, 1)
     assert r.errors == 1
     assert r.reference_length == 2
+
+
+def test_empty_reference_insert_rate():
+    assert m.score('', 'a b').rate == 2
