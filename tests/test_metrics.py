@@ -175,3 +175,16 @@ def test_corpus_length_mismatch():
 def test_sentence_length_mismatch():
     with pytest.raises(ValueError):
         m.sentence_error_rate([], ['a'])
+
+
+def test_alignment_reconstructs_both_inputs():
+    for ref, hyp in [
+        ('kitten', 'sitting'),
+        ('', 'ab'),
+        ('ab', ''),
+        ('aaaa', 'aa'),
+        ('语音', '语言'),
+    ]:
+        aligned = m.align(ref, hyp)
+        assert ''.join(r for _, r, _ in aligned if r is not None) == ref
+        assert ''.join(h for _, _, h in aligned if h is not None) == hyp
