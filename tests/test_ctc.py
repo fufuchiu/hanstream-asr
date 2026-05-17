@@ -10,3 +10,7 @@ def test_collapse_empty():
 
 def test_collapse_blank():
     assert m.collapse([0, 0], 0) == ()
+
+
+def test_collapse_repeat():
+    assert m.collapse([1, 1, 1], 0) == (1,)
