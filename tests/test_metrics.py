@@ -170,3 +170,8 @@ def test_confusion_counts():
 def test_corpus_length_mismatch():
     with pytest.raises(ValueError):
         m.corpus_score(['a'], [])
+
+
+def test_sentence_length_mismatch():
+    with pytest.raises(ValueError):
+        m.sentence_error_rate([], ['a'])
