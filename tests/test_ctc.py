@@ -98,3 +98,17 @@ def test_logadd_stable():
 
 def test_greedy_blank_separated():
     assert m.greedy(np.log([[0.1, 0.9], [0.9, 0.1], [0.1, 0.9]])) == (1, 1)
+
+
+def test_beam_matches_exhaustive_path_sum():
+    import itertools
+    from collections import defaultdict
+
+    p = np.array([[0.3, 0.7], [0.6, 0.4], [0.2, 0.8], [0.55, 0.45]])
+    expected = defaultdict(float)
+    for path in itertools.product(range(2), repeat=4):
+        expected[m.collapse(path)] += np.prod([p[t, c] for t, c in enumerate(path)])
+    actual = {key: np.exp(value) for key, value in m.prefix_beam_search(np.log(p), 64)}
+    for key, value in expected.items():
+        assert actual[key] == pytest.approx(value)
+    assert sum(actual.values()) == pytest.approx(1)
