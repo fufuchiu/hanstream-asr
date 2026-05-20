@@ -112,3 +112,9 @@ def test_beam_matches_exhaustive_path_sum():
     for key, value in expected.items():
         assert actual[key] == pytest.approx(value)
     assert sum(actual.values()) == pytest.approx(1)
+
+
+def test_beam_nonzero_blank():
+    p = np.array([[0.8, 0.2], [0.1, 0.9], [0.8, 0.2]])
+    result = m.prefix_beam_search(np.log(p), 64, blank=1)
+    assert result[0][0] == (0, 0)
