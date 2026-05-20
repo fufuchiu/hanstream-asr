@@ -118,3 +118,9 @@ def test_beam_nonzero_blank():
     p = np.array([[0.8, 0.2], [0.1, 0.9], [0.8, 0.2]])
     result = m.prefix_beam_search(np.log(p), 64, blank=1)
     assert result[0][0] == (0, 0)
+
+
+def test_alignment_repeat_spans():
+    p = np.log([[0.1, 0.9], [0.9, 0.1], [0.1, 0.9]])
+    spans = m.forced_align(p, [1, 1])
+    assert [(s.token, s.start_frame, s.end_frame) for s in spans] == [(1, 0, 1), (1, 2, 3)]
