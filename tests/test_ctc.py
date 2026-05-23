@@ -26,3 +26,8 @@ def test_collapse_mixed():
 
 def test_collapse_nonzero_blank():
     assert m.collapse([2, 0, 0, 2, 1], 2) == (0, 1)
+
+
+def test_bad_path_0():
+    with pytest.raises(ValueError):
+        m.collapse([-1])
