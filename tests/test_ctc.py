@@ -51,3 +51,8 @@ def test_bad_blank():
 def test_unnormalized():
     with pytest.raises(ValueError):
         m.greedy([[0.0, 0.0]])
+
+
+def test_nan():
+    with pytest.raises(ValueError):
+        m.greedy([[float('nan'), 0]])
