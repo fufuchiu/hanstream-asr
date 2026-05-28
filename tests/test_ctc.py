@@ -133,3 +133,7 @@ def test_alignment_impossible_emission():
 
 def test_empty_time_beam():
     assert m.prefix_beam_search(np.empty((0, 2))) == [((), 0.0)]
+
+
+def test_empty_target():
+    assert m.forced_align(np.log([[0.6, 0.4]]), []) == []
