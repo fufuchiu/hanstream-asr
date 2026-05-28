@@ -129,3 +129,7 @@ def test_alignment_repeat_spans():
 def test_alignment_impossible_emission():
     with pytest.raises(ValueError):
         m.forced_align([[0, -np.inf]], [1])
+
+
+def test_empty_time_beam():
+    assert m.prefix_beam_search(np.empty((0, 2))) == [((), 0.0)]
