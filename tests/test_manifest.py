@@ -21,3 +21,8 @@ def test_empty_speaker():
 def test_zero_duration():
     with pytest.raises(ValueError):
         m.Utterance('u', 'a.wav', '', 's', 0)
+
+
+def test_nan_duration():
+    with pytest.raises(ValueError):
+        m.Utterance('u', 'a.wav', '', 's', float('nan'))
