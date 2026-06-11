@@ -66,3 +66,8 @@ def test_positive_inf():
 def test_all_impossible():
     with pytest.raises(ValueError):
         m.greedy([[-float('inf'), -float('inf')]])
+
+
+def test_zero_beam():
+    with pytest.raises(ValueError):
+        m.prefix_beam_search(np.log([[0.5, 0.5]]), 0)
