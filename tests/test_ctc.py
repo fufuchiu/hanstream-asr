@@ -71,3 +71,8 @@ def test_all_impossible():
 def test_zero_beam():
     with pytest.raises(ValueError):
         m.prefix_beam_search(np.log([[0.5, 0.5]]), 0)
+
+
+def test_impossible_repeat():
+    with pytest.raises(ValueError):
+        m.forced_align(np.log([[0.5, 0.5]]), [1, 1])
