@@ -76,3 +76,8 @@ def test_zero_beam():
 def test_impossible_repeat():
     with pytest.raises(ValueError):
         m.forced_align(np.log([[0.5, 0.5]]), [1, 1])
+
+
+def test_blank_target():
+    with pytest.raises(ValueError):
+        m.forced_align(np.log([[0.5, 0.5]]), [0])
