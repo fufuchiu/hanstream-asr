@@ -94,3 +94,7 @@ def test_logadd_empty():
 
 def test_logadd_stable():
     assert m.logadd(-1000, -1000) == pytest.approx(-1000 + np.log(2))
+
+
+def test_greedy_blank_separated():
+    assert m.greedy(np.log([[0.1, 0.9], [0.9, 0.1], [0.1, 0.9]])) == (1, 1)
