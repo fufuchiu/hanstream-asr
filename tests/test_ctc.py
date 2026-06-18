@@ -90,3 +90,7 @@ def test_out_of_range_target():
 
 def test_logadd_empty():
     assert m.logadd() == -float('inf')
+
+
+def test_logadd_stable():
+    assert m.logadd(-1000, -1000) == pytest.approx(-1000 + np.log(2))
