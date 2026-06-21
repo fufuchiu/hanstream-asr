@@ -56,3 +56,8 @@ def test_negative_fraction():
 def test_large_fraction():
     with pytest.raises(ValueError):
         m.speaker_split([], 1.1)
+
+
+def test_zero_batch():
+    with pytest.raises(ValueError):
+        m.duration_batches([], 0)
