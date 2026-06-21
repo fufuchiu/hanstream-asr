@@ -51,3 +51,8 @@ def test_nonobject():
 def test_negative_fraction():
     with pytest.raises(ValueError):
         m.speaker_split([], -0.1)
+
+
+def test_large_fraction():
+    with pytest.raises(ValueError):
+        m.speaker_split([], 1.1)
