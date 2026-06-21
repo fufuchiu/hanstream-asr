@@ -46,3 +46,8 @@ def test_unknown_fields():
 def test_nonobject():
     with pytest.raises(ValueError):
         m.parse_record([])
+
+
+def test_negative_fraction():
+    with pytest.raises(ValueError):
+        m.speaker_split([], -0.1)
