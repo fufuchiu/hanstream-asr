@@ -124,3 +124,8 @@ def test_alignment_repeat_spans():
     p = np.log([[0.1, 0.9], [0.9, 0.1], [0.1, 0.9]])
     spans = m.forced_align(p, [1, 1])
     assert [(s.token, s.start_frame, s.end_frame) for s in spans] == [(1, 0, 1), (1, 2, 3)]
+
+
+def test_alignment_impossible_emission():
+    with pytest.raises(ValueError):
+        m.forced_align([[0, -np.inf]], [1])
