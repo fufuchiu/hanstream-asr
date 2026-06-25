@@ -11,3 +11,8 @@ def test_empty_id():
 def test_empty_audio():
     with pytest.raises(ValueError):
         m.Utterance('u', '', '', 's', 1)
+
+
+def test_empty_speaker():
+    with pytest.raises(ValueError):
+        m.Utterance('u', 'a.wav', '', '', 1)
