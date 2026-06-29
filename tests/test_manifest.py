@@ -66,3 +66,7 @@ def test_zero_batch():
 def test_oversize_batch():
     with pytest.raises(ValueError):
         m.duration_batches([m.Utterance('u', 'u.wav', '你好', 's', 1.0)], 0.5)
+
+
+def test_empty_summary():
+    assert m.corpus_summary([]) == {'utterances': 0, 'hours': 0, 'speakers': 0, 'sample_rates': []}
