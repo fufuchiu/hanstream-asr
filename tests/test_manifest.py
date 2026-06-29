@@ -78,3 +78,11 @@ def test_all_training():
 
 def test_all_validation():
     assert len(m.speaker_split([m.Utterance('u', 'u.wav', '你好', 's', 1.0)], 1)[1]) == 1
+
+
+def test_speaker_disjoint_and_complete():
+    rows = [m.Utterance(str(i), str(i) + '.wav', '', str(i // 3), 1) for i in range(60)]
+    a, c = m.speaker_split(rows, 0.3, 'seed')
+    assert not ({r.speaker for r in a} & {r.speaker for r in c})
+    assert len(a) + len(c) == 60
+    assert a and c
