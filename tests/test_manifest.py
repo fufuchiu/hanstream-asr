@@ -41,3 +41,8 @@ def test_nonstring_text():
 def test_unknown_fields():
     with pytest.raises(ValueError):
         m.parse_record({'unexpected': 1})
+
+
+def test_nonobject():
+    with pytest.raises(ValueError):
+        m.parse_record([])
