@@ -36,3 +36,8 @@ def test_zero_rate():
 def test_nonstring_text():
     with pytest.raises(ValueError):
         m.Utterance('u', 'a.wav', 1, 's', 1)
+
+
+def test_unknown_fields():
+    with pytest.raises(ValueError):
+        m.parse_record({'unexpected': 1})
