@@ -31,3 +31,8 @@ def test_nan_duration():
 def test_zero_rate():
     with pytest.raises(ValueError):
         m.Utterance('u', 'a.wav', '', 's', 1, 0)
+
+
+def test_nonstring_text():
+    with pytest.raises(ValueError):
+        m.Utterance('u', 'a.wav', 1, 's', 1)
