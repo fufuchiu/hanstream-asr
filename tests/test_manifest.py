@@ -94,3 +94,8 @@ def test_split_order_independence():
     b, d = m.speaker_split(reversed(rows), 0.5)
     assert {r.id for r in a} == {r.id for r in b}
     assert {r.id for r in c} == {r.id for r in d}
+
+
+def test_duration_budget():
+    rows = [m.Utterance('u', 'u.wav', '你好', 's', 1.0) for _ in range(5)]
+    assert [len(x) for x in m.duration_batches(rows, 2)] == [2, 2, 1]
