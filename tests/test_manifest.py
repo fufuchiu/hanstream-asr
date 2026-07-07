@@ -86,3 +86,11 @@ def test_speaker_disjoint_and_complete():
     assert not ({r.speaker for r in a} & {r.speaker for r in c})
     assert len(a) + len(c) == 60
     assert a and c
+
+
+def test_split_order_independence():
+    rows = [m.Utterance(str(i), 'a.wav', '', str(i), 1) for i in range(30)]
+    a, c = m.speaker_split(rows, 0.5)
+    b, d = m.speaker_split(reversed(rows), 0.5)
+    assert {r.id for r in a} == {r.id for r in b}
+    assert {r.id for r in c} == {r.id for r in d}
