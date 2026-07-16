@@ -61,3 +61,8 @@ def test_large_fraction():
 def test_zero_batch():
     with pytest.raises(ValueError):
         m.duration_batches([], 0)
+
+
+def test_oversize_batch():
+    with pytest.raises(ValueError):
+        m.duration_batches([m.Utterance('u', 'u.wav', '你好', 's', 1.0)], 0.5)
