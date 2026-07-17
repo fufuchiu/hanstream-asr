@@ -70,3 +70,7 @@ def test_oversize_batch():
 
 def test_empty_summary():
     assert m.corpus_summary([]) == {'utterances': 0, 'hours': 0, 'speakers': 0, 'sample_rates': []}
+
+
+def test_all_training():
+    assert len(m.speaker_split([m.Utterance('u', 'u.wav', '你好', 's', 1.0)], 0)[0]) == 1
