@@ -74,3 +74,7 @@ def test_empty_summary():
 
 def test_all_training():
     assert len(m.speaker_split([m.Utterance('u', 'u.wav', '你好', 's', 1.0)], 0)[0]) == 1
+
+
+def test_all_validation():
+    assert len(m.speaker_split([m.Utterance('u', 'u.wav', '你好', 's', 1.0)], 1)[1]) == 1
