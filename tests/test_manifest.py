@@ -133,3 +133,14 @@ def test_load_rejects_invalid_json():
         p.write_text('{broken\n')
         with pytest.raises(ValueError, match='data.jsonl:'):
             m.load_manifest(p)
+
+
+def test_load_rejects_unknown_field():
+    import tempfile
+    from pathlib import Path
+
+    with tempfile.TemporaryDirectory() as d:
+        p = Path(d) / 'data.jsonl'
+        p.write_text('{"extra":1}\n')
+        with pytest.raises(ValueError, match='data.jsonl:'):
+            m.load_manifest(p)
