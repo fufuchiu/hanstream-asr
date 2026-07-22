@@ -122,3 +122,14 @@ def test_load_rejects_duplicate():
         )
         with pytest.raises(ValueError, match='data.jsonl:'):
             m.load_manifest(p)
+
+
+def test_load_rejects_invalid_json():
+    import tempfile
+    from pathlib import Path
+
+    with tempfile.TemporaryDirectory() as d:
+        p = Path(d) / 'data.jsonl'
+        p.write_text('{broken\n')
+        with pytest.raises(ValueError, match='data.jsonl:'):
+            m.load_manifest(p)
