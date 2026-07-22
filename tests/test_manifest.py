@@ -109,3 +109,16 @@ def test_manifest_roundtrip():
         p = Path(d) / 'data.jsonl'
         m.save_manifest(p, [m.Utterance('u', 'u.wav', '你好', 's', 1.0)])
         assert m.load_manifest(p) == [m.Utterance('u', 'u.wav', '你好', 's', 1.0)]
+
+
+def test_load_rejects_duplicate():
+    import tempfile
+    from pathlib import Path
+
+    with tempfile.TemporaryDirectory() as d:
+        p = Path(d) / 'data.jsonl'
+        p.write_text(
+            '{"id":"u","audio":"u.wav","text":"","speaker":"s","duration":1}\n{"id":"u","audio":"u.wav","text":"","speaker":"s","duration":1}\n'
+        )
+        with pytest.raises(ValueError, match='data.jsonl:'):
+            m.load_manifest(p)
