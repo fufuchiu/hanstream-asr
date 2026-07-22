@@ -99,3 +99,13 @@ def test_split_order_independence():
 def test_duration_budget():
     rows = [m.Utterance('u', 'u.wav', '你好', 's', 1.0) for _ in range(5)]
     assert [len(x) for x in m.duration_batches(rows, 2)] == [2, 2, 1]
+
+
+def test_manifest_roundtrip():
+    import tempfile
+    from pathlib import Path
+
+    with tempfile.TemporaryDirectory() as d:
+        p = Path(d) / 'data.jsonl'
+        m.save_manifest(p, [m.Utterance('u', 'u.wav', '你好', 's', 1.0)])
+        assert m.load_manifest(p) == [m.Utterance('u', 'u.wav', '你好', 's', 1.0)]
