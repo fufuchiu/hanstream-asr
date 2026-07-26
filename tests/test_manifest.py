@@ -144,3 +144,14 @@ def test_load_rejects_unknown_field():
         p.write_text('{"extra":1}\n')
         with pytest.raises(ValueError, match='data.jsonl:'):
             m.load_manifest(p)
+
+
+def test_audio_existence_checked():
+    import tempfile
+    from pathlib import Path
+
+    with tempfile.TemporaryDirectory() as d:
+        p = Path(d) / 'data.jsonl'
+        m.save_manifest(p, [m.Utterance('u', 'u.wav', '你好', 's', 1.0)])
+        with pytest.raises(ValueError, match='audio file missing'):
+            m.load_manifest(p, True)
