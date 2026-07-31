@@ -30,3 +30,7 @@ def test_zero_window():
 
 def test_common_empty():
     assert m.common_prefix([]) == ()
+
+
+def test_common_prefix():
+    assert m.common_prefix(['abc', 'abd', 'ab']) == ('a', 'b')
