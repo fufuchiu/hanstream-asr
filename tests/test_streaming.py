@@ -34,3 +34,7 @@ def test_common_empty():
 
 def test_common_prefix():
     assert m.common_prefix(['abc', 'abd', 'ab']) == ('a', 'b')
+
+
+def test_common_none():
+    assert m.common_prefix(['abc', 'xbc']) == ()
