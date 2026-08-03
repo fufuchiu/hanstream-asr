@@ -21,3 +21,8 @@ def test_zero_silence():
 def test_negative_threshold():
     with pytest.raises(ValueError):
         m.EndpointDetector(threshold=-1)
+
+
+def test_zero_window():
+    with pytest.raises(ValueError):
+        m.StableTranscript(0)
