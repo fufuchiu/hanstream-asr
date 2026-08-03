@@ -26,3 +26,7 @@ def test_negative_threshold():
 def test_zero_window():
     with pytest.raises(ValueError):
         m.StableTranscript(0)
+
+
+def test_common_empty():
+    assert m.common_prefix([]) == ()
