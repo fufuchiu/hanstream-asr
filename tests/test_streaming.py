@@ -96,3 +96,10 @@ def test_endpoint_ignores_short_noise():
     assert d.feed([1]) == []
     assert d.feed([0]) == []
     assert not d.active
+
+
+def test_stable_window():
+    s = m.StableTranscript(2)
+    assert s.update([1, 2]) == ()
+    assert s.update([1, 3]) == (1,)
+    assert s.update([1, 3, 4]) == (1, 3)
