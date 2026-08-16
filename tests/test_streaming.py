@@ -103,3 +103,10 @@ def test_stable_window():
     assert s.update([1, 2]) == ()
     assert s.update([1, 3]) == (1,)
     assert s.update([1, 3, 4]) == (1, 3)
+
+
+def test_stable_rejects_revisions():
+    s = m.StableTranscript(1)
+    s.update([1, 2])
+    with pytest.raises(ValueError):
+        s.update([1, 3])
