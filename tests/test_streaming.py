@@ -38,3 +38,16 @@ def test_common_prefix():
 
 def test_common_none():
     assert m.common_prefix(['abc', 'xbc']) == ()
+
+
+def test_framing_arbitrary_bytes():
+    from hanstream.audio import encode_pcm16
+
+    f = m.PCMFramer(2)
+    raw = encode_pcm16([0, 0.5, -1])
+    assert f.feed(raw[:1]) == []
+    frames = f.feed(raw[1:5])
+    assert frames[0].tolist() == [0, 0.5]
+    assert f.pending_bytes == 1
+    assert f.feed(raw[5:]) == []
+    assert f.flush()[0].tolist() == [-1]
