@@ -51,3 +51,16 @@ def test_repeated_target_feasibility():
             torch.tensor([2]),
             torch.tensor([2]),
         )
+
+
+@pytest.mark.model
+def test_gradient_reaches_encoder():
+    import torch
+
+    from hanstream.model import CTCConfig, TinyCTC, ctc_loss
+
+    model = TinyCTC(CTCConfig(3, 8, 4, 1))
+    x = torch.randn(1, 6, 3)
+    n = torch.tensor([6])
+    ctc_loss(model(x, n), torch.tensor([1, 2]), n, torch.tensor([2])).backward()
+    assert model.encoder.weight_ih_l0.grad.abs().sum() > 0
