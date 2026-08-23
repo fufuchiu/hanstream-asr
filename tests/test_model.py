@@ -21,3 +21,18 @@ def test_training_decreases_loss():
     final = float(ctc_loss(model(x, lengths), y, lengths, y_lengths).detach())
     assert final < initial * 0.45
     assert all(torch.isfinite(p).all() for p in model.parameters())
+
+
+@pytest.mark.model
+def test_padding_does_not_change_valid_outputs():
+    import torch
+
+    from hanstream.model import CTCConfig, TinyCTC
+
+    torch.manual_seed(7)
+    model = TinyCTC(CTCConfig(4, 8, 4, 1)).eval()
+    x = torch.randn(2, 7, 4)
+    lengths = torch.tensor([4, 7])
+    y = x.clone()
+    y[0, 4:] = 100
+    assert torch.allclose(model(x, lengths)[0, :4], model(y, lengths)[0, :4])
