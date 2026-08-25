@@ -73,3 +73,11 @@ def test_framing_closed_flush():
     f.flush()
     with pytest.raises(ValueError):
         f.flush()
+
+
+def test_endpoint_onset_offset():
+    d = m.EndpointDetector(start_frames=2, silence_frames=2)
+    events = []
+    for x in [[0], [1], [1], [0], [0]]:
+        events.extend(d.feed(x))
+    assert [(e.kind, e.frame) for e in events] == [('start', 1), ('end', 3)]
