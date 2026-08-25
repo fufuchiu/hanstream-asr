@@ -66,3 +66,10 @@ def test_framing_closed_feed():
     f.flush()
     with pytest.raises(ValueError):
         f.feed(b'')
+
+
+def test_framing_closed_flush():
+    f = m.PCMFramer(2)
+    f.flush()
+    with pytest.raises(ValueError):
+        f.flush()
