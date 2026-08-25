@@ -51,3 +51,11 @@ def test_framing_arbitrary_bytes():
     assert f.pending_bytes == 1
     assert f.feed(raw[5:]) == []
     assert f.flush()[0].tolist() == [-1]
+
+
+def test_framing_odd_flush():
+    f = m.PCMFramer(2)
+    f.feed(b'x')
+    with pytest.raises(ValueError):
+        f.flush()
+    assert not f.closed
