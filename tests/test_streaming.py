@@ -89,3 +89,10 @@ def test_endpoint_reset():
     d.reset()
     assert not d.active
     assert d.frame == 0
+
+
+def test_endpoint_ignores_short_noise():
+    d = m.EndpointDetector(start_frames=2)
+    assert d.feed([1]) == []
+    assert d.feed([0]) == []
+    assert not d.active
