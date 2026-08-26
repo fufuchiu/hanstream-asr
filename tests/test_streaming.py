@@ -81,3 +81,11 @@ def test_endpoint_onset_offset():
     for x in [[0], [1], [1], [0], [0]]:
         events.extend(d.feed(x))
     assert [(e.kind, e.frame) for e in events] == [('start', 1), ('end', 3)]
+
+
+def test_endpoint_reset():
+    d = m.EndpointDetector(start_frames=1)
+    d.feed([1])
+    d.reset()
+    assert not d.active
+    assert d.frame == 0
