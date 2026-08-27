@@ -1,0 +1,23 @@
+import pytest
+
+
+@pytest.mark.model
+def test_training_decreases_loss():
+    import torch
+
+    from hanstream.model import CTCConfig, TinyCTC, ctc_loss, train_step
+
+    torch.manual_seed(11)
+    torch.set_num_threads(1)
+    model = TinyCTC(CTCConfig(4, 16, 4, 1))
+    x = torch.randn(2, 12, 4)
+    lengths = torch.tensor([12, 10])
+    y = torch.tensor([1, 2, 2, 1])
+    y_lengths = torch.tensor([2, 2])
+    optimizer = torch.optim.Adam(model.parameters(), lr=0.03)
+    initial = float(ctc_loss(model(x, lengths), y, lengths, y_lengths).detach())
+    for _ in range(35):
+        train_step(model, optimizer, x, lengths, y, y_lengths)
+    final = float(ctc_loss(model(x, lengths), y, lengths, y_lengths).detach())
+    assert final < initial * 0.45
+    assert all(torch.isfinite(p).all() for p in model.parameters())
