@@ -137,3 +137,13 @@ def test_empty_time_beam():
 
 def test_empty_target():
     assert m.forced_align(np.log([[0.6, 0.4]]), []) == []
+
+
+def test_logadd_positive_infinity():
+    assert m.logadd(float('inf'), -1) == float('inf')
+
+
+def test_logadd_rejects_nan_in_either_position():
+    for values in [(float('nan'), 0), (0, float('nan'))]:
+        with pytest.raises(ValueError):
+            m.logadd(*values)

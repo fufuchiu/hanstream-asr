@@ -1,138 +1,652 @@
 {
   "__init__.py": {
-    "__version__": "'0.1.0'"
+    "__version__": "'0.1.1'"
   },
   "__main__.py": {},
   "audio.py": {
-    "decode_pcm16": "data: bytes -> np.ndarray",
-    "encode_pcm16": "samples -> bytes",
-    "read_wav": "path: str | Path -> tuple[np.ndarray, int]",
-    "write_wav": "path: str | Path, samples, sample_rate: int=16000 -> None",
-    "rms": "samples -> float",
-    "peak": "samples -> float",
-    "normalize_peak": "samples, target: float=0.95 -> np.ndarray",
-    "preemphasis": "samples, coefficient: float=0.97 -> np.ndarray",
-    "frame_signal": "samples, frame_size: int, hop_size: int, pad: bool=True -> np.ndarray",
-    "remove_dc": "samples -> np.ndarray",
-    "add_noise": "samples, snr_db: float, seed: int=0 -> np.ndarray",
-    "trim_silence": "samples, threshold: float=0.01 -> np.ndarray",
-    "duration": "samples, sample_rate: int=16000 -> float"
+    "decode_pcm16": {
+      "signature": "data: bytes",
+      "returns": "np.ndarray",
+      "decorators": [],
+      "async": false
+    },
+    "encode_pcm16": {
+      "signature": "samples",
+      "returns": "bytes",
+      "decorators": [],
+      "async": false
+    },
+    "read_wav": {
+      "signature": "path: str | Path",
+      "returns": "tuple[np.ndarray, int]",
+      "decorators": [],
+      "async": false
+    },
+    "write_wav": {
+      "signature": "path: str | Path, samples, sample_rate: int=16000",
+      "returns": "None",
+      "decorators": [],
+      "async": false
+    },
+    "rms": {
+      "signature": "samples",
+      "returns": "float",
+      "decorators": [],
+      "async": false
+    },
+    "peak": {
+      "signature": "samples",
+      "returns": "float",
+      "decorators": [],
+      "async": false
+    },
+    "normalize_peak": {
+      "signature": "samples, target: float=0.95",
+      "returns": "np.ndarray",
+      "decorators": [],
+      "async": false
+    },
+    "preemphasis": {
+      "signature": "samples, coefficient: float=0.97",
+      "returns": "np.ndarray",
+      "decorators": [],
+      "async": false
+    },
+    "frame_signal": {
+      "signature": "samples, frame_size: int, hop_size: int, pad: bool=True",
+      "returns": "np.ndarray",
+      "decorators": [],
+      "async": false
+    },
+    "remove_dc": {
+      "signature": "samples",
+      "returns": "np.ndarray",
+      "decorators": [],
+      "async": false
+    },
+    "add_noise": {
+      "signature": "samples, snr_db: float, seed: int=0",
+      "returns": "np.ndarray",
+      "decorators": [],
+      "async": false
+    },
+    "trim_silence": {
+      "signature": "samples, threshold: float=0.01",
+      "returns": "np.ndarray",
+      "decorators": [],
+      "async": false
+    },
+    "duration": {
+      "signature": "samples, sample_rate: int=16000",
+      "returns": "float",
+      "decorators": [],
+      "async": false
+    }
   },
   "cli.py": {
-    "main": "argv=None -> int"
+    "main": {
+      "signature": "argv=None",
+      "returns": "int",
+      "decorators": [],
+      "async": false
+    }
   },
   "ctc.py": {
-    "logadd": "*values: float -> float",
-    "checked_log_probs": "values, blank: int=0 -> np.ndarray",
-    "collapse": "path, blank: int=0 -> tuple[int, ...]",
-    "greedy": "log_probs, blank: int=0 -> tuple[int, ...]",
-    "prefix_beam_search": "log_probs, beam_size: int=8, blank: int=0 -> list[tuple[tuple[int, ...], float]]",
-    "TokenSpan": {
-      "token": "int = ",
-      "start_frame": "int = ",
-      "end_frame": "int = ",
-      "log_score": "float = "
+    "logadd": {
+      "signature": "*values: float",
+      "returns": "float",
+      "decorators": [],
+      "async": false
     },
-    "forced_align": "log_probs, target, blank: int=0 -> list[TokenSpan]"
+    "checked_log_probs": {
+      "signature": "values, blank: int=0",
+      "returns": "np.ndarray",
+      "decorators": [],
+      "async": false
+    },
+    "collapse": {
+      "signature": "path, blank: int=0",
+      "returns": "tuple[int, ...]",
+      "decorators": [],
+      "async": false
+    },
+    "greedy": {
+      "signature": "log_probs, blank: int=0",
+      "returns": "tuple[int, ...]",
+      "decorators": [],
+      "async": false
+    },
+    "prefix_beam_search": {
+      "signature": "log_probs, beam_size: int=8, blank: int=0",
+      "returns": "list[tuple[tuple[int, ...], float]]",
+      "decorators": [],
+      "async": false
+    },
+    "TokenSpan": {
+      "bases": [],
+      "decorators": [
+        "dataclass(frozen=True)"
+      ],
+      "fields": {
+        "token": {
+          "type": "int",
+          "default": null
+        },
+        "start_frame": {
+          "type": "int",
+          "default": null
+        },
+        "end_frame": {
+          "type": "int",
+          "default": null
+        },
+        "log_score": {
+          "type": "float",
+          "default": null
+        }
+      },
+      "methods": {},
+      "instance_fields": []
+    },
+    "forced_align": {
+      "signature": "log_probs, target, blank: int=0",
+      "returns": "list[TokenSpan]",
+      "decorators": [],
+      "async": false
+    }
   },
   "features.py": {
-    "hz_to_mel": "hz -> ",
-    "mel_to_hz": "mel -> ",
-    "power_spectrum": "frames, n_fft: int=512 -> np.ndarray",
-    "mel_filterbank": "sample_rate: int=16000, n_fft: int=512, n_mels: int=40, f_min: float=0, f_max: float | None=None -> np.ndarray",
-    "log_mel": "samples, sample_rate: int=16000, frame_size: int=400, hop_size: int=160, n_fft: int=512, n_mels: int=40 -> np.ndarray",
-    "cmvn": "features, epsilon: float=1e-08 -> np.ndarray",
-    "delta": "features, width: int=2 -> np.ndarray",
-    "mask_features": "features, time_width: int=0, frequency_width: int=0, seed: int=0 -> np.ndarray"
+    "hz_to_mel": {
+      "signature": "hz",
+      "returns": null,
+      "decorators": [],
+      "async": false
+    },
+    "mel_to_hz": {
+      "signature": "mel",
+      "returns": null,
+      "decorators": [],
+      "async": false
+    },
+    "power_spectrum": {
+      "signature": "frames, n_fft: int=512",
+      "returns": "np.ndarray",
+      "decorators": [],
+      "async": false
+    },
+    "mel_filterbank": {
+      "signature": "sample_rate: int=16000, n_fft: int=512, n_mels: int=40, f_min: float=0, f_max: float | None=None",
+      "returns": "np.ndarray",
+      "decorators": [],
+      "async": false
+    },
+    "log_mel": {
+      "signature": "samples, sample_rate: int=16000, frame_size: int=400, hop_size: int=160, n_fft: int=512, n_mels: int=40",
+      "returns": "np.ndarray",
+      "decorators": [],
+      "async": false
+    },
+    "cmvn": {
+      "signature": "features, epsilon: float=1e-08",
+      "returns": "np.ndarray",
+      "decorators": [],
+      "async": false
+    },
+    "delta": {
+      "signature": "features, width: int=2",
+      "returns": "np.ndarray",
+      "decorators": [],
+      "async": false
+    },
+    "mask_features": {
+      "signature": "features, time_width: int=0, frequency_width: int=0, seed: int=0",
+      "returns": "np.ndarray",
+      "decorators": [],
+      "async": false
+    }
   },
   "manifest.py": {
     "Utterance": {
-      "id": "str = ",
-      "audio": "str = ",
-      "text": "str = ",
-      "speaker": "str = ",
-      "duration": "float = ",
-      "sample_rate": "int = 16000"
+      "bases": [],
+      "decorators": [
+        "dataclass(frozen=True)"
+      ],
+      "fields": {
+        "id": {
+          "type": "str",
+          "default": null
+        },
+        "audio": {
+          "type": "str",
+          "default": null
+        },
+        "text": {
+          "type": "str",
+          "default": null
+        },
+        "speaker": {
+          "type": "str",
+          "default": null
+        },
+        "duration": {
+          "type": "float",
+          "default": null
+        },
+        "sample_rate": {
+          "type": "int",
+          "default": "16000"
+        }
+      },
+      "methods": {},
+      "instance_fields": []
     },
-    "parse_record": "data: dict -> Utterance",
-    "load_manifest": "path: str | Path, check_audio: bool=False -> list[Utterance]",
-    "save_manifest": "path: str | Path, records -> None",
-    "speaker_split": "records, validation_fraction: float=0.1, seed: str='0' -> tuple[list[Utterance], list[Utterance]]",
-    "corpus_summary": "records -> dict",
-    "duration_batches": "records, max_seconds: float=60 -> list[list[Utterance]]"
+    "parse_record": {
+      "signature": "data: dict",
+      "returns": "Utterance",
+      "decorators": [],
+      "async": false
+    },
+    "load_manifest": {
+      "signature": "path: str | Path, check_audio: bool=False",
+      "returns": "list[Utterance]",
+      "decorators": [],
+      "async": false
+    },
+    "save_manifest": {
+      "signature": "path: str | Path, records",
+      "returns": "None",
+      "decorators": [],
+      "async": false
+    },
+    "speaker_split": {
+      "signature": "records, validation_fraction: float=0.1, seed: str='0'",
+      "returns": "tuple[list[Utterance], list[Utterance]]",
+      "decorators": [],
+      "async": false
+    },
+    "corpus_summary": {
+      "signature": "records",
+      "returns": "dict",
+      "decorators": [],
+      "async": false
+    },
+    "duration_batches": {
+      "signature": "records, max_seconds: float=60",
+      "returns": "list[list[Utterance]]",
+      "decorators": [],
+      "async": false
+    }
   },
   "metrics.py": {
     "EditCounts": {
-      "substitutions": "int = 0",
-      "deletions": "int = 0",
-      "insertions": "int = 0",
-      "hits": "int = 0",
-      "errors": "self -> int",
-      "reference_length": "self -> int",
-      "rate": "self -> float"
+      "bases": [],
+      "decorators": [
+        "dataclass(frozen=True)"
+      ],
+      "fields": {
+        "substitutions": {
+          "type": "int",
+          "default": "0"
+        },
+        "deletions": {
+          "type": "int",
+          "default": "0"
+        },
+        "insertions": {
+          "type": "int",
+          "default": "0"
+        },
+        "hits": {
+          "type": "int",
+          "default": "0"
+        }
+      },
+      "methods": {
+        "errors": {
+          "signature": "self",
+          "returns": "int",
+          "decorators": [
+            "property"
+          ],
+          "async": false
+        },
+        "reference_length": {
+          "signature": "self",
+          "returns": "int",
+          "decorators": [
+            "property"
+          ],
+          "async": false
+        },
+        "rate": {
+          "signature": "self",
+          "returns": "float",
+          "decorators": [
+            "property"
+          ],
+          "async": false
+        }
+      },
+      "instance_fields": []
     },
-    "align": "reference, hypothesis -> list[tuple[str, str | None, str | None]]",
-    "edit_counts": "reference, hypothesis -> EditCounts",
-    "score": "reference: str, hypothesis: str, unit: str='word', policy: TextPolicy=TextPolicy() -> EditCounts",
-    "corpus_score": "references, hypotheses, unit: str='word' -> EditCounts",
-    "confusion_pairs": "reference: str, hypothesis: str, unit: str='char' -> dict[tuple[str, str], int]",
-    "sentence_error_rate": "references, hypotheses, unit: str='word' -> float"
+    "align": {
+      "signature": "reference, hypothesis",
+      "returns": "list[tuple[str, str | None, str | None]]",
+      "decorators": [],
+      "async": false
+    },
+    "edit_counts": {
+      "signature": "reference, hypothesis",
+      "returns": "EditCounts",
+      "decorators": [],
+      "async": false
+    },
+    "score": {
+      "signature": "reference: str, hypothesis: str, unit: str='word', policy: TextPolicy=TextPolicy()",
+      "returns": "EditCounts",
+      "decorators": [],
+      "async": false
+    },
+    "corpus_score": {
+      "signature": "references, hypotheses, unit: str='word'",
+      "returns": "EditCounts",
+      "decorators": [],
+      "async": false
+    },
+    "confusion_pairs": {
+      "signature": "reference: str, hypothesis: str, unit: str='char'",
+      "returns": "dict[tuple[str, str], int]",
+      "decorators": [],
+      "async": false
+    },
+    "sentence_error_rate": {
+      "signature": "references, hypotheses, unit: str='word'",
+      "returns": "float",
+      "decorators": [],
+      "async": false
+    }
   },
   "model.py": {
     "CTCConfig": {
-      "input_features": "int = 40",
-      "hidden_size": "int = 64",
-      "vocabulary_size": "int = 32",
-      "layers": "int = 2",
-      "blank": "int = 0"
+      "bases": [],
+      "decorators": [
+        "dataclass(frozen=True)"
+      ],
+      "fields": {
+        "input_features": {
+          "type": "int",
+          "default": "40"
+        },
+        "hidden_size": {
+          "type": "int",
+          "default": "64"
+        },
+        "vocabulary_size": {
+          "type": "int",
+          "default": "32"
+        },
+        "layers": {
+          "type": "int",
+          "default": "2"
+        },
+        "blank": {
+          "type": "int",
+          "default": "0"
+        }
+      },
+      "methods": {},
+      "instance_fields": []
     },
     "TinyCTC": {
-      "__init__": "self, config: CTCConfig=CTCConfig() -> ",
-      "forward": "self, features: torch.Tensor, lengths: torch.Tensor -> torch.Tensor"
+      "bases": [
+        "nn.Module"
+      ],
+      "decorators": [],
+      "fields": {},
+      "methods": {
+        "__init__": {
+          "signature": "self, config: CTCConfig=CTCConfig()",
+          "returns": null,
+          "decorators": [],
+          "async": false
+        },
+        "forward": {
+          "signature": "self, features: torch.Tensor, lengths: torch.Tensor",
+          "returns": "torch.Tensor",
+          "decorators": [],
+          "async": false
+        }
+      },
+      "instance_fields": [
+        "config",
+        "encoder",
+        "projection"
+      ]
     },
-    "ctc_loss": "log_probs: torch.Tensor, targets: torch.Tensor, input_lengths: torch.Tensor, target_lengths: torch.Tensor, blank: int=0 -> torch.Tensor",
-    "train_step": "model: TinyCTC, optimizer, features, lengths, targets, target_lengths, max_grad_norm: float=1.0 -> float"
+    "ctc_loss": {
+      "signature": "log_probs: torch.Tensor, targets: torch.Tensor, input_lengths: torch.Tensor, target_lengths: torch.Tensor, blank: int=0",
+      "returns": "torch.Tensor",
+      "decorators": [],
+      "async": false
+    },
+    "train_step": {
+      "signature": "model: TinyCTC, optimizer, features, lengths, targets, target_lengths, max_grad_norm: float=1.0",
+      "returns": "float",
+      "decorators": [],
+      "async": false
+    }
   },
   "streaming.py": {
     "PCMFramer": {
-      "__init__": "self, samples_per_frame: int=320 -> ",
-      "feed": "self, data: bytes -> list",
-      "flush": "self -> list",
-      "pending_bytes": "self -> int"
+      "bases": [],
+      "decorators": [],
+      "fields": {},
+      "methods": {
+        "__init__": {
+          "signature": "self, samples_per_frame: int=320",
+          "returns": null,
+          "decorators": [],
+          "async": false
+        },
+        "feed": {
+          "signature": "self, data: bytes",
+          "returns": "list",
+          "decorators": [],
+          "async": false
+        },
+        "flush": {
+          "signature": "self",
+          "returns": "list",
+          "decorators": [],
+          "async": false
+        },
+        "pending_bytes": {
+          "signature": "self",
+          "returns": "int",
+          "decorators": [
+            "property"
+          ],
+          "async": false
+        }
+      },
+      "instance_fields": [
+        "closed",
+        "frame_bytes"
+      ]
     },
     "EndpointEvent": {
-      "kind": "str = ",
-      "frame": "int = "
+      "bases": [],
+      "decorators": [
+        "dataclass(frozen=True)"
+      ],
+      "fields": {
+        "kind": {
+          "type": "str",
+          "default": null
+        },
+        "frame": {
+          "type": "int",
+          "default": null
+        }
+      },
+      "methods": {},
+      "instance_fields": []
     },
     "EndpointDetector": {
-      "__init__": "self, threshold: float=0.01, start_frames: int=2, silence_frames: int=5 -> ",
-      "reset": "self -> None",
-      "feed": "self, samples -> list[EndpointEvent]"
+      "bases": [],
+      "decorators": [],
+      "fields": {},
+      "methods": {
+        "__init__": {
+          "signature": "self, threshold: float=0.01, start_frames: int=2, silence_frames: int=5",
+          "returns": null,
+          "decorators": [],
+          "async": false
+        },
+        "reset": {
+          "signature": "self",
+          "returns": "None",
+          "decorators": [],
+          "async": false
+        },
+        "feed": {
+          "signature": "self, samples",
+          "returns": "list[EndpointEvent]",
+          "decorators": [],
+          "async": false
+        }
+      },
+      "instance_fields": [
+        "active",
+        "frame",
+        "silence_frames",
+        "silent",
+        "start_frames",
+        "threshold",
+        "voiced"
+      ]
     },
-    "common_prefix": "sequences -> tuple",
+    "common_prefix": {
+      "signature": "sequences",
+      "returns": "tuple",
+      "decorators": [],
+      "async": false
+    },
     "StableTranscript": {
-      "__init__": "self, window: int=2 -> ",
-      "update": "self, tokens -> tuple"
+      "bases": [],
+      "decorators": [],
+      "fields": {},
+      "methods": {
+        "__init__": {
+          "signature": "self, window: int=2",
+          "returns": null,
+          "decorators": [],
+          "async": false
+        },
+        "update": {
+          "signature": "self, tokens",
+          "returns": "tuple",
+          "decorators": [],
+          "async": false
+        }
+      },
+      "instance_fields": [
+        "committed",
+        "history",
+        "window"
+      ]
     }
   },
   "text.py": {
     "TextPolicy": {
-      "lowercase": "bool = True",
-      "punctuation": "bool = False",
-      "compatibility": "bool = True"
+      "bases": [],
+      "decorators": [
+        "dataclass(frozen=True)"
+      ],
+      "fields": {
+        "lowercase": {
+          "type": "bool",
+          "default": "True"
+        },
+        "punctuation": {
+          "type": "bool",
+          "default": "False"
+        },
+        "compatibility": {
+          "type": "bool",
+          "default": "True"
+        }
+      },
+      "methods": {},
+      "instance_fields": []
     },
-    "normalize": "text: str, policy: TextPolicy=TextPolicy() -> str",
-    "tokens": "text: str, unit: str='word', policy: TextPolicy=TextPolicy() -> list[str]",
-    "make_vocabulary": "texts: list[str] -> tuple[str, ...]",
-    "check_vocabulary": "vocabulary -> tuple[str, ...]",
-    "encode": "text: str, vocabulary -> list[int]",
-    "decode": "ids, vocabulary -> str"
+    "normalize": {
+      "signature": "text: str, policy: TextPolicy=TextPolicy()",
+      "returns": "str",
+      "decorators": [],
+      "async": false
+    },
+    "tokens": {
+      "signature": "text: str, unit: str='word', policy: TextPolicy=TextPolicy()",
+      "returns": "list[str]",
+      "decorators": [],
+      "async": false
+    },
+    "make_vocabulary": {
+      "signature": "texts: list[str]",
+      "returns": "tuple[str, ...]",
+      "decorators": [],
+      "async": false
+    },
+    "check_vocabulary": {
+      "signature": "vocabulary",
+      "returns": "tuple[str, ...]",
+      "decorators": [],
+      "async": false
+    },
+    "encode": {
+      "signature": "text: str, vocabulary",
+      "returns": "list[int]",
+      "decorators": [],
+      "async": false
+    },
+    "decode": {
+      "signature": "ids, vocabulary",
+      "returns": "str",
+      "decorators": [],
+      "async": false
+    }
   },
   "validation.py": {
-    "positive_int": "value: int, name: str='value' -> int",
-    "finite": "value: float, name: str='value' -> float",
-    "probability": "value: float, name: str='value' -> float",
-    "waveform": "samples -> np.ndarray",
-    "matrix": "values -> np.ndarray"
+    "positive_int": {
+      "signature": "value: int, name: str='value'",
+      "returns": "int",
+      "decorators": [],
+      "async": false
+    },
+    "finite": {
+      "signature": "value: float, name: str='value'",
+      "returns": "float",
+      "decorators": [],
+      "async": false
+    },
+    "probability": {
+      "signature": "value: float, name: str='value'",
+      "returns": "float",
+      "decorators": [],
+      "async": false
+    },
+    "waveform": {
+      "signature": "samples",
+      "returns": "np.ndarray",
+      "decorators": [],
+      "async": false
+    },
+    "matrix": {
+      "signature": "values",
+      "returns": "np.ndarray",
+      "decorators": [],
+      "async": false
+    }
   }
 }

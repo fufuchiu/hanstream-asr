@@ -13,8 +13,10 @@ def logadd(*values: float) -> float:
     """Stable log(sum(exp(values))) including the empty sum."""
     if not values:
         return -math.inf
+    if any(math.isnan(value) for value in values):
+        raise ValueError('logadd does not accept NaN')
     top = max(values)
-    if top == -math.inf:
+    if abs(top) == math.inf:
         return top
     return top + math.log(sum(math.exp(x - top) for x in values))
 
