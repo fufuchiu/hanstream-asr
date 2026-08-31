@@ -36,3 +36,18 @@ def test_padding_does_not_change_valid_outputs():
     y = x.clone()
     y[0, 4:] = 100
     assert torch.allclose(model(x, lengths)[0, :4], model(y, lengths)[0, :4])
+
+
+@pytest.mark.model
+def test_repeated_target_feasibility():
+    import torch
+
+    from hanstream.model import ctc_loss
+
+    with pytest.raises(ValueError, match='cannot be aligned'):
+        ctc_loss(
+            torch.zeros(1, 2, 3).log_softmax(-1),
+            torch.tensor([1, 1]),
+            torch.tensor([2]),
+            torch.tensor([2]),
+        )
