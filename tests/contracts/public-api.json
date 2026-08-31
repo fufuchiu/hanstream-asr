@@ -1,0 +1,138 @@
+{
+  "__init__.py": {
+    "__version__": "'0.1.0'"
+  },
+  "__main__.py": {},
+  "audio.py": {
+    "decode_pcm16": "data: bytes -> np.ndarray",
+    "encode_pcm16": "samples -> bytes",
+    "read_wav": "path: str | Path -> tuple[np.ndarray, int]",
+    "write_wav": "path: str | Path, samples, sample_rate: int=16000 -> None",
+    "rms": "samples -> float",
+    "peak": "samples -> float",
+    "normalize_peak": "samples, target: float=0.95 -> np.ndarray",
+    "preemphasis": "samples, coefficient: float=0.97 -> np.ndarray",
+    "frame_signal": "samples, frame_size: int, hop_size: int, pad: bool=True -> np.ndarray",
+    "remove_dc": "samples -> np.ndarray",
+    "add_noise": "samples, snr_db: float, seed: int=0 -> np.ndarray",
+    "trim_silence": "samples, threshold: float=0.01 -> np.ndarray",
+    "duration": "samples, sample_rate: int=16000 -> float"
+  },
+  "cli.py": {
+    "main": "argv=None -> int"
+  },
+  "ctc.py": {
+    "logadd": "*values: float -> float",
+    "checked_log_probs": "values, blank: int=0 -> np.ndarray",
+    "collapse": "path, blank: int=0 -> tuple[int, ...]",
+    "greedy": "log_probs, blank: int=0 -> tuple[int, ...]",
+    "prefix_beam_search": "log_probs, beam_size: int=8, blank: int=0 -> list[tuple[tuple[int, ...], float]]",
+    "TokenSpan": {
+      "token": "int = ",
+      "start_frame": "int = ",
+      "end_frame": "int = ",
+      "log_score": "float = "
+    },
+    "forced_align": "log_probs, target, blank: int=0 -> list[TokenSpan]"
+  },
+  "features.py": {
+    "hz_to_mel": "hz -> ",
+    "mel_to_hz": "mel -> ",
+    "power_spectrum": "frames, n_fft: int=512 -> np.ndarray",
+    "mel_filterbank": "sample_rate: int=16000, n_fft: int=512, n_mels: int=40, f_min: float=0, f_max: float | None=None -> np.ndarray",
+    "log_mel": "samples, sample_rate: int=16000, frame_size: int=400, hop_size: int=160, n_fft: int=512, n_mels: int=40 -> np.ndarray",
+    "cmvn": "features, epsilon: float=1e-08 -> np.ndarray",
+    "delta": "features, width: int=2 -> np.ndarray",
+    "mask_features": "features, time_width: int=0, frequency_width: int=0, seed: int=0 -> np.ndarray"
+  },
+  "manifest.py": {
+    "Utterance": {
+      "id": "str = ",
+      "audio": "str = ",
+      "text": "str = ",
+      "speaker": "str = ",
+      "duration": "float = ",
+      "sample_rate": "int = 16000"
+    },
+    "parse_record": "data: dict -> Utterance",
+    "load_manifest": "path: str | Path, check_audio: bool=False -> list[Utterance]",
+    "save_manifest": "path: str | Path, records -> None",
+    "speaker_split": "records, validation_fraction: float=0.1, seed: str='0' -> tuple[list[Utterance], list[Utterance]]",
+    "corpus_summary": "records -> dict",
+    "duration_batches": "records, max_seconds: float=60 -> list[list[Utterance]]"
+  },
+  "metrics.py": {
+    "EditCounts": {
+      "substitutions": "int = 0",
+      "deletions": "int = 0",
+      "insertions": "int = 0",
+      "hits": "int = 0",
+      "errors": "self -> int",
+      "reference_length": "self -> int",
+      "rate": "self -> float"
+    },
+    "align": "reference, hypothesis -> list[tuple[str, str | None, str | None]]",
+    "edit_counts": "reference, hypothesis -> EditCounts",
+    "score": "reference: str, hypothesis: str, unit: str='word', policy: TextPolicy=TextPolicy() -> EditCounts",
+    "corpus_score": "references, hypotheses, unit: str='word' -> EditCounts",
+    "confusion_pairs": "reference: str, hypothesis: str, unit: str='char' -> dict[tuple[str, str], int]",
+    "sentence_error_rate": "references, hypotheses, unit: str='word' -> float"
+  },
+  "model.py": {
+    "CTCConfig": {
+      "input_features": "int = 40",
+      "hidden_size": "int = 64",
+      "vocabulary_size": "int = 32",
+      "layers": "int = 2",
+      "blank": "int = 0"
+    },
+    "TinyCTC": {
+      "__init__": "self, config: CTCConfig=CTCConfig() -> ",
+      "forward": "self, features: torch.Tensor, lengths: torch.Tensor -> torch.Tensor"
+    },
+    "ctc_loss": "log_probs: torch.Tensor, targets: torch.Tensor, input_lengths: torch.Tensor, target_lengths: torch.Tensor, blank: int=0 -> torch.Tensor",
+    "train_step": "model: TinyCTC, optimizer, features, lengths, targets, target_lengths, max_grad_norm: float=1.0 -> float"
+  },
+  "streaming.py": {
+    "PCMFramer": {
+      "__init__": "self, samples_per_frame: int=320 -> ",
+      "feed": "self, data: bytes -> list",
+      "flush": "self -> list",
+      "pending_bytes": "self -> int"
+    },
+    "EndpointEvent": {
+      "kind": "str = ",
+      "frame": "int = "
+    },
+    "EndpointDetector": {
+      "__init__": "self, threshold: float=0.01, start_frames: int=2, silence_frames: int=5 -> ",
+      "reset": "self -> None",
+      "feed": "self, samples -> list[EndpointEvent]"
+    },
+    "common_prefix": "sequences -> tuple",
+    "StableTranscript": {
+      "__init__": "self, window: int=2 -> ",
+      "update": "self, tokens -> tuple"
+    }
+  },
+  "text.py": {
+    "TextPolicy": {
+      "lowercase": "bool = True",
+      "punctuation": "bool = False",
+      "compatibility": "bool = True"
+    },
+    "normalize": "text: str, policy: TextPolicy=TextPolicy() -> str",
+    "tokens": "text: str, unit: str='word', policy: TextPolicy=TextPolicy() -> list[str]",
+    "make_vocabulary": "texts: list[str] -> tuple[str, ...]",
+    "check_vocabulary": "vocabulary -> tuple[str, ...]",
+    "encode": "text: str, vocabulary -> list[int]",
+    "decode": "ids, vocabulary -> str"
+  },
+  "validation.py": {
+    "positive_int": "value: int, name: str='value' -> int",
+    "finite": "value: float, name: str='value' -> float",
+    "probability": "value: float, name: str='value' -> float",
+    "waveform": "samples -> np.ndarray",
+    "matrix": "values -> np.ndarray"
+  }
+}
