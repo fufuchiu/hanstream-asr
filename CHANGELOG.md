@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.1
+
+Tighten boundary validation and freeze public decorators, base classes and instance fields.
+Extend regression coverage for positive infinity and NaN in CTC probability accumulation.
+
+
 ## 0.1.0
 
 Initial research release with deterministic core utilities, strict input contracts,

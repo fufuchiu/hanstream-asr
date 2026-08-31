@@ -1,6 +1,6 @@
 # Security
 
-Only load checkpoints and corpus files from sources you trust. Checkpoint loaders
+Only load checkpoints and corpus files from sources you trust. For custom checkpoint integrations,
 use PyTorch weights-only loading and validate model configuration. Do not place
 credentials or private participant audio in issues, examples or committed data.
 
